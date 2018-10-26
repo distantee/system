@@ -16,8 +16,8 @@ def all_meuns(request):
 def c_manage(request):
     return render(request,'c_manage.html')
 
-def c_add(request):
-    return render(request,'c_add.html')
+def c_news(request):
+    return render(request,'c_news.html')
 
 
 def c_classify(request):

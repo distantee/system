@@ -1,3 +1,4 @@
+#coding=utf-8
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -7,6 +8,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
 
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 
@@ -101,3 +103,55 @@ class TTeacherCourse(models.Model):
     class Meta:
         managed = False
         db_table = 't_teacher_course'
+
+
+
+#栏目管理的具体内容
+#分类表：分为三类-教师-学生-校园
+class Category(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    cname=models.CharField(max_length=20,unique=True,verbose_name='分类名称')
+
+    def __unicode__(self):
+        return  u'Category:%s'%self.cname
+
+    class Meta:
+        db_table='blog_category'
+        verbose_name_plural='分类管理表'
+
+#标签表  标签分为三类：奖励、惩罚、飞跃进步
+class Tag(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    tname=models.CharField(max_length=20,unique=True,verbose_name='标签名称')
+
+    def __unicode__(self):
+        return u'Tag:%s'%self.tname
+
+    class Meta:
+        db_table='blog_tag'
+        verbose_name_plural = '标签管理表'
+
+#帖子表
+class Post(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    #标题
+    title=models.CharField(max_length=20,verbose_name='标题')
+    #简介
+    desc=models.TextField(verbose_name='简介')
+    #内容
+    content=RichTextUploadingField(verbose_name='内容')
+    #创建时间
+    created=models.DateTimeField(verbose_name='创建时间')
+    #修改时间
+    modified=models.DateTimeField(auto_now_add=True,verbose_name='修改时间')
+    #外键连接
+    category=models.ForeignKey(Category,on_delete=models.CASCADE,verbose_name='分类详情')
+    tag=models.ManyToManyField(Tag,verbose_name='可选标签')
+
+    def __unicode__(self):
+        return u'Post:%s'%self.title
+
+    class Meta:
+        db_table='blog_post'
+        verbose_name_plural = '帖子管理表'
+
