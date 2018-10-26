@@ -11,3 +11,14 @@ def index_view(request):
 
 def all_meuns(request):
     return render(request,'all_menus.html')
+
+
+def c_manage(request):
+    return render(request,'c_manage.html')
+
+def c_add(request):
+    return render(request,'c_add.html')
+
+
+def c_classify(request):
+    return render(request,'c_classify.html')
