@@ -6,6 +6,7 @@
 
 {% block right %}
     {% for arc in archive %}
+        {{ arc }}
     <input type="button" value="{{ arc.0|date:'Y年m月'}}">
      {% endfor %}
 {% endblock right %}
