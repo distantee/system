@@ -139,7 +139,7 @@ class Post(models.Model):
     #简介
     desc=models.TextField(verbose_name='简介')
     #内容
-    content=RichTextUploadingField(verbose_name='内容')
+    content=RichTextUploadingField()
     #创建时间
     created=models.DateTimeField(verbose_name='创建时间')
     #修改时间

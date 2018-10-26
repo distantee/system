@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    <li><a href="/student/c_manage/" id="a_leader_event">内容管理</a></li>
+    <li><a href="/student/c_manage/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">内容管理</a></li>
 {% endblock title %}
 
 {% block right %}
@@ -30,11 +30,11 @@
                 </div>
             </div>
 
-
-            <div class="article-inner" style="background: lavender">
+{#style="background: lavender"#}
+            <div class="article-inner" >
                 <header class="article-header">
                     <h1 itemprop="name">
-                        <a class="article-title" href="/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
+                        <a class="article-title" href="/student/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
                     </h1>
                 </header>
                 <div class="article-entry" itemprop="articleBody">
@@ -44,7 +44,7 @@
 
 
                     <p class="article-more-link">
-                        <a href="/post/{{ post.id }}" target="_blank">阅读全文</a>
+                        <a href="/student/post/{{ post.id }}" target="_blank">阅读全文</a>
                     </p>
                 </div>
                 <footer class="article-footer">

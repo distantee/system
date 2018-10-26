@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from models import *
 
 # Create your views here.
@@ -45,15 +45,18 @@ def c_manage(request,num='1'):
 
 
 def c_news(request):
-    return render(request,'c_news.html')
+    c_post=Post.objects.all().order_by('-created')
+    return render(request,'c_news.html',{'c_post':c_post})
 
 
-def c_classify(request):
-    return render(request,'c_classify.html')
+def c_simply(request):
+    return render(request, 'c_simply.html')
+
+def c_time(request):
+    return render(request, 'c_time.html')
 
 
 def post_view(request,postId):
-    # post=Post.objects.get(id=postId)
-    print postId
-    # return render(request,'post.html',{'post':post})
-    return HttpResponse('123')
+    post=Post.objects.get(id=postId)
+    return render(request,'post.html',{'post':post})
+
