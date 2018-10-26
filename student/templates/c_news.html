@@ -1,62 +1,65 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{#<link rel="stylesheet" href="{% static 'css_wj1.css' %}">#}
-{#<link rel="stylesheet" href="{% static 'js_wj1.js' %}">#}
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit">
-    <title>近期要闻</title>
-    <link rel="stylesheet" href="{% static 'css_wj1.css' %}">
-    <link rel="stylesheet" href="{% static 'js_wj1.js' %}">
-</head>
-<body>
-    {% block title %}
-        <li><a href="/student/event/" id="a_leader_event">近期要闻</a></li>
-    {% endblock title %}
-    {% block right %}
-        {% for post in posts %}
-            <article class="article article-type-post">
-                <div class="article-meta">
-                    <a class="article-date">
-                        <time>{{ post.created|date:'Y年m月d日 H:m:s ' }}</time>
-                    </a>
-                    <div class="article-category">
-                        <a class="article-category-link" href="http://localhost:8000/#"
-                           target="_blank">{{ post.category.cname }}</a>
-                    </div>
+
+{% block title %}
+    <li><a href="/student/event/" id="a_leader_event">近期要闻</a></li>
+{% endblock title %}
+
+{% block right %}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>近期要闻</title>
+        <link rel="stylesheet" href="{% static 'css_wj1.css' %}">
+        <link rel="stylesheet" href="{% static 'js_wj1.js' %}">
+    </head>
+    <body>
+      {% for post in posts %}
+        <article class="article article-type-post">
+            <div class="article-meta">
+                <a class="article-date">
+                    <time>{{ post.created|date:'Y年m月d日 H:m:s ' }}</time>
+                </a>
+                <div class="article-category">
+                    <a class="article-category-link" href="http://localhost:8000/#"
+                       target="_blank">{{ post.category.cname }}</a>
                 </div>
+            </div>
 
 
-                <div class="article-inner">
-                    <header class="article-header">
-                        <h1 itemprop="name">
-                            <a class="article-title" href="/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
-                        </h1>
-                    </header>
-                    <div class="article-entry" itemprop="articleBody">
-                        <h2>前言</h2>
-                        <hr>
-                        {{ post.desc|truncatechars:25 }}
+            <div class="article-inner">
+                <header class="article-header">
+                    <h1 itemprop="name">
+                        <a class="article-title" href="/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
+                    </h1>
+                </header>
+                <div class="article-entry" itemprop="articleBody">
+                    <h2>前言</h2>
+                    <hr>
+                    {{ post.desc|truncatechars:25 }}
 
 
-                        <p class="article-more-link">
-                            <a href="/post/{{ post.id }}" target="_blank">阅读全文</a>
-                        </p>
-                    </div>
-                    <footer class="article-footer">
-                        <a data-url="存放文章的url" class="article-share-link">分享</a>
-                        <ul class="article-tag-list">
-                            {% for pt in post.tag.all %}
-                                <li class="article-tag-list-item">
-                                    <a class="article-tag-list-link" href="http://localhost:8000/#">{{ pt.tname }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </footer>
+                    <p class="article-more-link">
+                        <a href="/post/{{ post.id }}" target="_blank">阅读全文</a>
+                    </p>
                 </div>
-            </article>
-        {% endfor %}
-    {% endblock right %}
-</body>
+                <footer class="article-footer">
+                    <a data-url="存放文章的url" class="article-share-link">分享</a>
+                    <ul class="article-tag-list">
+                        {% for pt in post.tag.all %}
+                            <li class="article-tag-list-item">
+                                <a class="article-tag-list-link" href="http://localhost:8000/#">{{ pt.tname }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </footer>
+            </div>
+        </article>
+    {% endfor %}
+    </body>
+    </html>
+{% endblock right %}
