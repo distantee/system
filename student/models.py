@@ -154,4 +154,3 @@ class Post(models.Model):
     class Meta:
         db_table='blog_post'
         verbose_name_plural = '帖子管理表'
-
