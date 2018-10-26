@@ -5,22 +5,15 @@
 {% endblock title %}
 
 {% block right %}
-    123
-{#    <!doctype html>#}
-{#    <html lang="en">#}
-{#    <head>#}
-{#        <meta charset="UTF-8">#}
-{#        <meta name="viewport"#}
-{#              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
-{#        <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
-{#        <title>分类管理</title>#}
-{#        <link rel="stylesheet" href="{% static 'css_wj1.css' %}">#}
-{#        <link rel="stylesheet" href="{% static 'js_wj1.js' %}">#}
-{#    </head>#}
-{#    <body>#}
-{#        123#}
-{#    </body>#}
-{#    </html>#}
+    <ul style="color: #e32d40">
+       {% for cpt in c_post %}
+       <li>
+       {{ forloop.counter }}
+       <a href="/student/post/{{ cpt.id }}" style="font-weight: bold;font-size: 20px;color: #cb2027">{{ cpt.title }}</a>&emsp;&emsp;
+       <a href="/student/post/{{ cpt.id }}">{{ cpt.desc }}</a>
+       </li>
+       {% endfor %}
+    </ul>
 {% endblock right %}
 
 

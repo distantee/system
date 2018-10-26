@@ -45,12 +45,12 @@ def c_manage(request,num='1'):
 
 
 def c_news(request):
-    c_post=Post.objects.all().order_by('-created')
-    return render(request,'c_news.html',{'c_post':c_post})
+    return render(request,'c_news.html')
 
 
 def c_simply(request):
-    return render(request, 'c_simply.html')
+    c_post=Post.objects.all()
+    return render(request, 'c_simply.html',{'c_post':c_post})
 
 def c_time(request):
     return render(request, 'c_time.html')
