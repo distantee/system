@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'student',
+        'NAME': 'system',
         'USER':'root',
-        'PASSWORD':'125521',
+        'PASSWORD':'12345',
         'HOST':'127.0.0.1',
         'PORT':'3306',
     }
