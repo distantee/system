@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="{% static 'js_wj1.js' %}">
     </head>
     <body>
-      {% for post in posts %}
+        {% for post in post %}
         <article class="article article-type-post">
             <div class="article-meta">
                 <a class="article-date">
@@ -59,26 +59,7 @@
                 </footer>
             </div>
         </article>
-    {% endfor %}
-{#        <nav id="page-nav">#}
-{#        {% if posts.has_previous %}#}
-{#            <a class="page-number" href="/page/{{ posts.previous_page_number }}"> 上一页</a>#}
-{#        {% endif %}#}
-
-{#        {% for pr in page_range %}#}
-    {#        {{ posts.number }}#}
-{#            {% if posts.number == pr %}#}
-{#                <a style="color: #1e242a;font-weight: bold;background-color: #66d9ef" href="/page/{{ pr }}">{{ pr }}</a>#}
-{#            {% else %}#}
-{#                <a href="/page/{{ pr }}">{{ pr }}</a>#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-{##}
-{#        {% if posts.has_next %}#}
-{#        <a class="page-number" href="/page/{{ posts.next_page_number }}">下一页</a>#}
-{#        {% endif %}#}
-{#        </nav>#}
-
     </body>
+    {% endfor %}
     </html>
 {% endblock right %}
