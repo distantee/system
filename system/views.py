@@ -13,6 +13,6 @@ def login_view(request):
         # print name,pwd
         if name == 'admin' and pwd == '123':
             # return render(request,'index.html',{'name':name})
-            return redirect(to={'url':'/student/index'})
+            return redirect(to='/student/index')
         else:
             return HttpResponse('登陆失败')
