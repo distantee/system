@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>学生管理中心</title>
+    <link rel="stylesheet" href="{% static 'css4.css' %}">
+    <link rel="stylesheet" href="{% static 'css5.css' %}">
+    <script src="{% static 'js4.js' %}"></script>
+</head>
+<body style="background-color:#f2f9fd;">
+    <div class="header bg-main">
+        {% include 'head.html' %}
+    </div>
+    <div class="leftnav">
+        {% include 'left.html' %}
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $(".leftnav h2").click(function () {
+                $(this).next().slideToggle(200);
+                $(this).toggleClass("on");
+            })
+            $(".leftnav ul li a").click(function () {
+                $("#a_leader_txt").text($(this).text());
+                $(".leftnav ul li a").removeClass("on");
+                $(this).addClass("on");
+            })
+        });
+    </script>
+    <ul class="bread">
+        <li><a href="{:U('Index/info')}" target="right" class="icon-home"> 首页</a></li>
+        <li><a href="##" id="a_leader_txt">网站信息</a></li>
+        {% block title %}
+
+        {% endblock %}
+
+
+    </ul>
+    <div class="admin">
+        {% block right %}
+
+        {% endblock %}
+    </div>
+    <div style="text-align:center;">
+        <p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+    </div>
+
+</body>
+</html>
