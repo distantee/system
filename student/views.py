@@ -7,3 +7,7 @@ from django.shortcuts import render
 # Create your views here.
 def index_view(request):
     return render(request,'index.html')
+
+
+def all_meuns(request):
+    return render(request,'all_menus.html')
