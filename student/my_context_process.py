@@ -11,4 +11,6 @@ def rightInfo(request):
     cursor.execute("SELECT created,COUNT('*') AS c FROM blog_post GROUP BY DATE_FORMAT(created,'%Y%m') ORDER BY c DESC")
     archive = cursor.fetchall()
 
-    return {'archive':archive}
+    # 近期yaowen
+    recent = Post.objects.all().order_by('-created')[:5]
+    return {'archive':archive,'recent':recent}

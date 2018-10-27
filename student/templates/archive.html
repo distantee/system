@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/c_simply/" id="a_leader_event">简要分类</a></li>
+    <li><a href="/student/c_time/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">时间分类</a></li>
+{% endblock title %}
+
+{% block right %}
+ <div class="archives">
+        {% for cpt in c_post %}
+            <article class="archive-article archive-type-post">
+                <div class="archive-article-inner">
+                    <header class="archive-article-header">
+                        <a href="#" class="archive-article-date">
+                            <time>{{ cpt.created }}</time>
+                        </a>
+
+                        <h1 itemprop="name">
+                            <a class="archive-article-title" target="_blank"
+                               href="/student/post/{{ cpt.id }}">{{ cpt.title }}</a>
+                        </h1>
+                    </header>
+                </div>
+            </article>
+        {% endfor %}
+ </div>
+{% endblock right %}

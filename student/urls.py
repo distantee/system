@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^c_news/', views.c_news),
     url(r'^c_simply/', views.c_simply),
     url(r'^c_time/', views.c_time),
+    url(r'^archive/(\d+)/(\d+)', views.archive_view),
+
 ]

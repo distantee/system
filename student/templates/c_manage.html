@@ -2,7 +2,8 @@
 {% load staticfiles %}
 
 {% block title %}
-    <li><a href="/student/c_manage/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">内容管理</a></li>
+    <li><a href="/student/c_manage/" id="a_leader_event"
+           style="color: #1e242a;font-weight: bold;background-color: #66d9ef">内容管理</a></li>
 {% endblock title %}
 
 {% block right %}
@@ -18,7 +19,7 @@
         <link rel="stylesheet" href="{% static 'js_wj1.js' %}">
     </head>
     <body>
-      {% for post in posts %}
+    {% for post in posts %}
         <article class="article article-type-post">
             <div class="article-meta">
                 <a class="article-date">
@@ -30,8 +31,8 @@
                 </div>
             </div>
 
-{#style="background: lavender"#}
-            <div class="article-inner" >
+            {#style="background: lavender"#}
+            <div class="article-inner">
                 <header class="article-header">
                     <h1 itemprop="name">
                         <a class="article-title" href="/student/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
@@ -60,24 +61,6 @@
             </div>
         </article>
     {% endfor %}
-{#        <nav id="page-nav">#}
-{#        {% if posts.has_previous %}#}
-{#            <a class="page-number" href="/page/{{ posts.previous_page_number }}"> 上一页</a>#}
-{#        {% endif %}#}
-
-{#        {% for pr in page_range %}#}
-    {#        {{ posts.number }}#}
-{#            {% if posts.number == pr %}#}
-{#                <a style="color: #1e242a;font-weight: bold;background-color: #66d9ef" href="/page/{{ pr }}">{{ pr }}</a>#}
-{#            {% else %}#}
-{#                <a href="/page/{{ pr }}">{{ pr }}</a>#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-{##}
-{#        {% if posts.has_next %}#}
-{#        <a class="page-number" href="/page/{{ posts.next_page_number }}">下一页</a>#}
-{#        {% endif %}#}
-{#        </nav>#}
 
     </body>
     </html>

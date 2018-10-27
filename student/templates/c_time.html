@@ -6,6 +6,6 @@
 
 {% block right %}
     {% for arc in archive %}
-    <input type="button" value="{{ arc.0|date:'Y年m月'}}|&emsp;({{ arc.1 }})">
+    <a href="/student/archive/{{ arc.0.year }}/{{ arc.0.month }}" ><input type="button" value="{{ arc.0|date:'Y年m月'}}|&emsp;({{ arc.1 }})" ></a>
      {% endfor %}
 {% endblock right %}
