@@ -8,3 +8,6 @@ body{
 				background-color: #22cc77;
 				font-size: 20px;
 			}
+td{
+	height: 40px;
+}

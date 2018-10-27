@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/show/1" id="a_leader_txt">基本信息</a></li>
+    <li><a href="{% url 'register' %}" id="a_leader_txt">注册信息</a></li>
+    <li><a href="{% url 'operate' %}" id="a_leader_txt">操作</a></li>
+{% endblock title %}
+{% block right %}
+    <form action="{% url 'register' %}" method="post" >
+    {% csrf_token %}
+        <table border="2px" style="border-radius: 1px;text-align: center;font-size: 20px;font-family: 仿宋;" align="center"
+               width="45%"  cellspacing="0px" >
+            <tr>
+                <th colspan="2">学生信息注册</th>
+            </tr>
+            <tr>
+                <td width="25%" >姓名</td>
+                <td width="75%"><input type="text" autofocus="autofocus" name="name"/></td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td>
+                    <select name="clazz">
+                        <option value="-1">-请 选 择 班 级-</option>
+                        {% for clazz in clazzs %}
+                            <option value="{{ clazz.clazzname }}" >{{ clazz.clazzname }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <input type="radio" name="gender" checked="checked" value="男"/>男&emsp;&emsp;
+						<input type="radio" name="gender"  value="女"/>女
+                </td>
+            </tr>
+            <tr>
+                <td>年龄</td>
+                <td width="75%"><input type="number"  name="age" min="3" value="" max="60" style="width: 180px"/></td>
+
+            </tr>
+            <tr>
+					<th width="25%">课程:</th>
+					<td width="75%">
+                        {% for cor in course %}
+                            <input type="checkbox" name="course" value="{{ cor.coursename }}"/>{{ cor.coursename }}
+                        {% endfor %}
+					</td>
+            <tr>
+                    <td>操作</td>
+					<td width="25%">
+                        <input type="submit" value="注册" />
+                        <a href="{% url 'operate' %}"><input type="button" value="操作"/></a>
+                    </td>
+				</tr>
+        </table>
+
+
+    </form>
+
+
+{% endblock right %}

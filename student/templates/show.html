@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/show/{{ stus.number }}" id="a_leader_txt">基本信息</a></li>
+    <li><a href="{% url 'register' %}" id="a_leader_txt">注册信息</a></li>
+    <li><a href="{% url 'operate' %}" id="a_leader_txt">操作</a></li>
+{% endblock title %}
+{% block right %}
+    {% for stu in stus.object_list %}
+        <span style="margin: 5px 200px auto;font-weight: bold">学生姓名：{{ stu.studentname }}</span>
+        <table border="2px"
+               style="border-radius: 1px;text-align: center;font-size: 20px;font-family: 仿宋;"
+               align="center"
+               width="45%" cellspacing="0px">
+            <tr>
+                <th colspan="2">学生信息展示</th>
+            </tr>
+            <tr>
+                <td width="25%">学号</td>
+                <td width="75%">{{ stu.studentid }}</td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td>{{ stu.clazz.clazzname }}</td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>{{ stu.sex }}</td>
+            </tr>
+            <tr>
+                <td>年龄</td>
+                <td>{{ stu.age }}</td>
+            </tr>
+        </table>
+        <hr>
+
+    {% endfor %}
+
+    <div align="center" style="margin: 50px auto auto">
+
+        {% if stus.has_previous %}
+            <a href="/student/show/{{ stus.previous_page_number }}">上一页&emsp;&emsp;</a>
+        {% endif %}
+
+        {% for pr in page_range %}
+            {% if stus.number == pr %}
+                <span class="page_number current"
+                      style="color: #ffddcc;font-weight: bold;background-color: #33bbcc">{{ pr }}&nbsp;</span>
+            {% else %}
+                <a href="/student/show/{{ pr }}">{{ pr }}&nbsp;</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if stus.has_next %}
+            <a href="/student/show/{{ stus.next_page_number }}">&emsp;&emsp;下一页</a>
+        {% endif %}
+
+    </div>
+
+{% endblock right %}
