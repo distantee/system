@@ -37,7 +37,9 @@
                 </header>
                 <div class="article-entry" itemprop="articleBody">
                     <h2>前言</h2>
-                    {{ post.content }}
+                    {% autoescape off %}
+                        {{ post.content }}
+                    {% endautoescape %}
                     <hr>
                     <p></p>
 

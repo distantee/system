@@ -4,12 +4,24 @@
 {% endblock title %}
 
 {% block right %}
-    <ul>
+{#    <ul >#}
+{#            {% for rec in recent %}#}
+{#            <li>#}
+{#                <a href="/post/{{ rec.id }}" target="_blank">{{ rec.created|date:'Y年m月d日' }}</a>#}
+{#                <a href="/post/{{ rec.id }}" target="_blank">{{ rec.title }}</a>#}
+{#            </li>#}
+{#            {% endfor %}#}
+{#    </ul>#}
+    <table align="center" border="1px" cellpadding="9px" cellspacing="0" width="800px" >
+            <tr align="center" bgcolor="#7fffd4" height="22px">
+                <th>发布时间</th>
+                <th>标题</th>
+            </tr>
             {% for rec in recent %}
-            <li>
-                <a href="/post/{{ rec.id }}" target="_blank">{{ rec.created|date:'Y年m月d日' }}</a>
-                &emsp;&emsp;<a href="/post/{{ rec.id }}" target="_blank">{{ rec.title }}</a>
-            </li>
+            <tr align="center" height="28px" style="line-height: 28px">
+                <td><a href="/post/{{ rec.id }}" target="_blank">{{ rec.created|date:'Y年m月d日' }}</a></td>
+                <td><a href="/post/{{ rec.id }}" target="_blank">{{ rec.title }}</a></td>
+            </tr>
             {% endfor %}
-        </ul>
+    </table>
 {% endblock right %}

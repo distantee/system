@@ -15,10 +15,21 @@ def all_meuns(request):
     return render(request,'all_menus.html')
 
 
-
-def c_manage(request):
-    posts=Post.objects.all().order_by('-created')
-    return render(request, 'c_manage.html', {'posts': posts})
+def get_page(num,size):
+    posts=Paginator(Post.objects.order_by('-created'),size)
+    if num<=0:
+        num=1
+    if num>=posts.num_pages:
+        num=posts.num_pages
+    start=num
+    end=start+3
+    if end>posts.num_pages:
+        end=posts.num_pages
+    return posts.page(num),range(start,end)
+def c_manage(request,num='1'):
+    num=int(num)
+    posts,page_range=get_page(num,3)
+    return render(request, 'c_manage.html', {'posts': posts,'page_range':page_range})
 
 
 
