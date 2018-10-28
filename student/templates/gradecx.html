@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    <li><a href="/student/gradecx/">成绩查询</a></li>
+    <li><a href="/student/gradelr/">成绩录入</a></li>
+    {#    <li><a href="{:U('Index/info')}" target="right" class="icon-home"> 首页</a></li>#}
+    {#        <li><a href="##" id="a_leader_txt">网站信息</a></li>#}
+{% endblock %}
+
+{% block right %}
+
+    {#    <iframe scrolling="auto" rameborder="0" src="info.html" name="right" width="100%" height="100%">#}
+    {##}
+    {#    </iframe>#}
+     <form action="#" method="post">
+     {% csrf_token %}
+    <p align="center">请输入查询条件：
+        <select name="tiaojian">
+            <option>学生姓名</option>
+            <option>课程名称</option>
+            <option>班级名称</option>
+        </select>
+        <input type="text" name="content">
+        <input type="submit" value="查询">
+    </p>
+        <table border="1px" cellpadding="9" cellspacing="0" width="800px" height="30px" align="center"
+               style="font-size: 20px">
+            <caption style="font-size: 30px;font-weight: bold" align="center">学生成绩表</caption>
+            <tr>
+                <td>学生姓名</td>
+                <td>班级名称</td>
+                <td>课程名称</td>
+                <td>成绩</td>
+                <td>操作</td>
+            </tr>
+            {% for grade in grades %}
+                <tr>
+                    <td>{{ grade.studentid.studentname }}</td>
+                    <td>{{ grade.studentid.clazz.clazzname }}</td>
+                    <td> {{ grade.courseid.coursename }}</td>
+                    <td>{{ grade.grade }}</td>
+                    <td><a href="/student/delete/{{ grade.gradeid }}">删除</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
+{% endblock %}
