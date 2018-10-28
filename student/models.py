@@ -121,7 +121,7 @@ class DjangoSession(models.Model):
 
 
 class Grade(models.Model):
-    gradeid = models.IntegerField(primary_key=True)
+    gradeid = models.AutoField(primary_key=True)
     studentid = models.ForeignKey('TStudent', models.DO_NOTHING, db_column='studentid', blank=True, null=True)
     courseid = models.ForeignKey('TCourse', models.DO_NOTHING, db_column='courseid', blank=True, null=True)
     grade = models.IntegerField(blank=True, null=True)
