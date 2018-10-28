@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block right %}
+{% block title %}
+    <ul class="bread">
+        <li><a href="{% url 'index' %}" target="right" class="icon-home"> 首页</a></li>
+        <li><a href="#" id="a_leader_txt">网站信息</a></li>
+        <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
+        <li><a href="{% url 'bookdata' %}" id="a_leader_txt">图书展示</a></li>
+
+    </ul>
+{% endblock %}
+    <div class="admin">
+
+        <form action="{% url 'bookdata' %}" method="post">
+            {% csrf_token %}
+            <br/>
+            <br/>
+
+            <p align="center">请输入查询条件:
+                <select name="key" id="">
+                    <option value="bid">书号</option>
+                    <option value="bname">书名</option>
+                </select>
+                &emsp;<input type="text" name="test"/>
+                <input type="submit" value="查询">
+            </p>
+            <br/>
+            {% for book in books %}
+            <table  border="1px" cellpadding="9px" cellspacing="0px" width="600px" align="center" style="height: 60px">
+                <tr style="height: 30px;border: 1px" >
+                    <td align="center">书号</td>
+                    <td align="center">书名</td>
+                    <td align="center">出版社</td>
+                    <td align="center">单价</td>
+                    <td align="center">维护</td>
+                </tr>
+                <tr>
+                    <td>{{ book.bookid }}</td>
+                    <td>{{ book.bookname }}</td>
+                    <td>{{ book.press }}</td>
+                    <td>{{ book.price }}</td>
+                    <td align="center">
+                        <a href="/library/showbook/{{ book.bookid }}">详情</a>
+                        |
+                        <a href="{% url 'delbook' %}/?id={{ book.bookid }}">删除</a>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            {% endfor %}
+            <br/>
+            <p align="center">
+                {% if books.has_previous %}
+                    <a href="/library/page/{{ books.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                {% for pr in page_range %}
+                    {% if books.number == pr %}
+                        <a  style="color: royalblue ;background-color: #cccccc" href="/library/page/{{ pr }}">{{ pr }}</a>
+                    {% else %}
+                        <a href="/library/page/{{ pr }}">{{ pr }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if books.has_next %}
+                    <a href="/library/page/{{ books.next_page_number }}">下一页</a>
+                {% endif %}
+            </p>
+            <p align="right"><a href="{% url 'addbook' %}">添加数据</a></p>
+        </form>
+    </div>
+{% endblock %}
