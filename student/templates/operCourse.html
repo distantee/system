@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="{% url 'course' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >查询信息</a></li>
+{% endblock %}
+
+{% block right %}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <style type="text/css">
+            table{
+                border: 1px solid black;
+            }
+            td{
+                border: 1px solid black;
+                height: 30px;
+                line-height: 30px;
+            }
+            input[type=text]{
+                width: 60px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="{% url 'operCourse' %}" method="post" style="text-align: center">
+            {% csrf_token %}
+            <span>查询依据：
+                <select name="key" id="">
+                    <option value="-1">-请选择-</option>
+                    <option value="cid">编号</option>
+                    <option value="cname">课程名称</option>
+                    <option value="rktname">任课教师</option>
+{#                    <option value="xkrs">选课人数</option>#}
+                </select>&emsp;
+            </span>
+            <span>过滤条件：
+                <select name="constraint" id="">
+                    <option value="-1">-请选择-</option>
+                    <option value="gt">大于</option>
+                    <option value="lt">小于</option>
+                    <option value="eq">等于</option>
+                </select>&emsp;
+            </span>
+            <span>值：
+                <input type="text" name="val" id="">
+            </span>&emsp;
+            <span><input type="submit" value="查询"></span>
+            <br><br>
+            <table cellspacing="0px" cellpadding="9px" width="500px" align="center" >
+                <caption style="font-weight: bold;margin: 15px 0px;font-size: 20px">课程信息表</caption>
+                <tr align="center">
+                    <td>课程编号</td>
+                    <td>课程名称</td>
+                    <td >任课教师</td>
+                    <td>选课人数</td>
+                    <td>操作</td>
+                </tr>
+                {% for message in messages %}
+
+                    <tr align="center">
+                        <td>{{ message.0.courseid }}</td>
+                        <td>{{ message.0.coursename }}</td>
+                        <td >
+                            {% for teacher in message.1 %}
+                                {{ teacher.teachername }}
+                            {% endfor %}
+                        </td>
+
+                        <td>{{ message.2 }}</td>
+                        <td><a href="/student/delCourse/{{ message.0.courseid }}">删除</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </body>
+    </html>
+{% endblock %}
