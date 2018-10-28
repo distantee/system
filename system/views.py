@@ -7,12 +7,12 @@ def login_view(request):
     if request.method == 'GET':
         return render(request,'login.html')
     else:
-        print request.method
+        print(request.method)
         name = request.POST.get('name')
         pwd = request.POST.get('password')
         # print name,pwd
         if name == 'admin' and pwd == '123':
             # return render(request,'index.html',{'name':name})
-            return redirect(to={'url':'/student/index'})
+            return redirect(to='/student/index')
         else:
             return HttpResponse('登陆失败')
