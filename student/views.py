@@ -59,7 +59,7 @@ def gradelr_view(request):
 
         return HttpResponse('添加数据不完整')
 
-def delete_view(request,gradeid):
+def deletegrade_view(request,gradeid):
     #print gradeid
     grade = Grade.objects.get(gradeid=gradeid)
     grade.delete()
