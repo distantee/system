@@ -30,6 +30,16 @@
                 <td>年龄</td>
                 <td>{{ stu.age }}</td>
             </tr>
+            <tr>
+                <td>课程</td>
+                <td>
+                {% for cour in cour_list %}
+
+                    {{ cour.coursename }}&emsp;
+                {% endfor %}
+                </td>
+
+            </tr>
         </table>
         <hr>
 

@@ -152,7 +152,7 @@ class TClazz(models.Model):
 
 
 class TCourse(models.Model):
-    courseid = models.IntegerField(primary_key=True)
+    courseid = models.AutoField(primary_key=True)
     coursename = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -183,7 +183,7 @@ class TStuentCourse(models.Model):
 
 
 class TTeacher(models.Model):
-    teacherid = models.IntegerField(primary_key=True)
+    teacherid = models.AutoField(primary_key=True)
     teachername = models.CharField(max_length=20, blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
