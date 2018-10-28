@@ -28,9 +28,34 @@
                 <td>操作</td>
             </tr>
              <tr>
-                <td><input type="text" name="studentname"></td>
-                <td><input type="text" name="clazzname"></td>
-                <td><input type="text" name="coursename"></td>
+                <td>
+{#                    <input type="text" name="studentname">#}
+                    <select name="studentname">
+                        <option value="-1">-请 选 择 姓 名-</option>
+                        {% for stu in stus %}
+                            <option value="{{ stu.studentname }}" >{{ stu.studentname }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select name="clazzname">
+                        <option value="-1">-请 选 择 班 级-</option>
+                        {% for cla in clazz %}
+                            <option value="{{ cla.clazzname }}" >{{ cla.clazzname }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+{#                <td>#}
+{#                    <input type="text" name="coursename" value="{{ clazz }}">#}
+{#                </td>#}
+                <td>
+                    <select name="coursename">
+                        <option value="-1">-请 选 择 课 程-</option>
+                        {% for cour in cour_list %}
+                            <option value="{{ cour.coursename }}" >{{ cour.coursename }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
                 <td><input type="text" name="grade"></td>
              <td><input type="submit" value="提交"></td>
             </tr>

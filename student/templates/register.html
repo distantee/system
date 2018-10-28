@@ -19,7 +19,13 @@
             <tr>
                 <td>班级</td>
                 <td>
-                    <input type="text" name="clazz" id="">
+                    <input type="text" name="clazz" id="clazz" list="clazz">
+                    <datalist id="clazz">
+                        <option value="-1">-请 选 择 班 级-</option>
+                        {% for clazz in clazzs %}
+                            <option value="{{ clazz.clazzname }}" >{{ clazz.clazzname }}</option>
+                        {% endfor %}
+                    </datalist>
 {#                    <select name="clazz">#}
 {#                        <option value="-1">-请 选 择 班 级-</option>#}
 {#                        {% for clazz in clazzs %}#}
@@ -37,7 +43,7 @@
             </tr>
             <tr>
                 <td>年龄</td>
-                <td width="75%"><input type="number"  name="age" min="3" value="" max="60" style="width: 180px"/></td>
+                <td width="75%"><input type="number" name="age" min="3" value="" max="60" style="width: 180px"/></td>
 
             </tr>
             <tr>
