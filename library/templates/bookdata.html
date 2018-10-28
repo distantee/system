@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
-{% block right %}
+
 {% block title %}
-    <ul class="bread">
+
         <li><a href="{% url 'index' %}" target="right" class="icon-home"> 首页</a></li>
         <li><a href="#" id="a_leader_txt">网站信息</a></li>
         <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
         <li><a href="{% url 'bookdata' %}" id="a_leader_txt">图书展示</a></li>
 
-    </ul>
+
 {% endblock %}
-    <div class="admin">
+{% block right %}
+
 
         <form action="{% url 'bookdata' %}" method="post">
             {% csrf_token %}
@@ -68,5 +69,5 @@
             </p>
             <p align="right"><a href="{% url 'addbook' %}">添加数据</a></p>
         </form>
-    </div>
+
 {% endblock %}
