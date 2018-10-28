@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="{% url 'course' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
+{% endblock %}
+
+{% block right %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style type="text/css">
+            table{
+                border: 1px solid black;
+            }
+            td{
+                border: 1px solid black;
+                height: 30px;
+                line-height: 30px;
+            }
+            a{
+                text-decoration: underline;
+                margin-right: 6px;
+            }
+        </style>
+    </head>
+    <body>
+        <table cellspacing="0px" cellpadding="9px" width="500px" align="center">
+            <caption style="font-weight: bold;margin: 15px 0px;font-size: 20px">课程信息表</caption>
+            <tr align="center">
+                <td>课程编号</td>
+                <td>课程名称</td>
+                <td >任课教师</td>
+                <td>选课人数</td>
+                <td>操作</td>
+            </tr>
+            {% for message in t_pre_page %}
+                <tr align="center">
+                    <td>{{ message.0.courseid }}</td>
+                    <td>{{ message.0.coursename }}</td>
+                    <td >
+                        {% for teacher in message.1 %}
+                            {{ teacher.teachername }}
+                        {% endfor %}
+                    </td>
+
+                    <td>{{ message.2 }}</td>
+                    <td><a href="/student/delCourse/{{ message.0.courseid }}">删除</a></td>
+                </tr>
+
+            {% endfor %}
+            <tr>
+                <td colspan="5" align="center">
+                    {% if t_pre_page.has_previous %}
+                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.previous_page_number }}">上一页</a>
+                    {% endif %}
+
+                    {% for n in paginator.page_range %}
+                        {% if n <= 3 %}
+                            <a href="{% url 'showCourse' %}?num={{ n }}">{{ n }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if t_pre_page.has_next %}
+                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.next_page_number }}">下一页</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </body>
+    </html>
+{% endblock %}
