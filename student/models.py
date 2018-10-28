@@ -21,7 +21,7 @@ class DjangoMigrations(models.Model):
 
 
 class Grade(models.Model):
-    gradeid = models.IntegerField(primary_key=True)
+    gradeid = models.AutoField(primary_key=True)
     studentid = models.ForeignKey('TStudent', models.DO_NOTHING, db_column='studentid', blank=True, null=True)
     courseid = models.ForeignKey('TCourse', models.DO_NOTHING, db_column='courseid', blank=True, null=True)
     grade = models.IntegerField(blank=True, null=True)
@@ -43,7 +43,7 @@ class TBook(models.Model):
 
 
 class TClazz(models.Model):
-    clazzid = models.IntegerField(primary_key=True)
+    clazzid = models.AutoField(primary_key=True)
     clazzname = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -61,7 +61,7 @@ class TCourse(models.Model):
 
 
 class TStudent(models.Model):
-    studentid = models.IntegerField(primary_key=True)
+    studentid = models.AutoField(primary_key=True)
     studentname = models.CharField(max_length=20, blank=True, null=True)
     clazz = models.ForeignKey(TClazz, models.DO_NOTHING, db_column='clazz', blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
