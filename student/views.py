@@ -64,7 +64,19 @@ def gradecx_view(request):
 
 def gradelr_view(request):
     if request.method == 'GET':
-        return render(request,'gradelr.html')
+        stus = TStudent.objects.all()
+        clazz = TClazz.objects.all()
+        for stu in stus:
+            courses =TStuentCourse.objects.filter(student=stu.studentid)
+            # clazzid = TStudent.objects.get(studentid=stu.studentid)
+            # clazz = TClazz.objects.get(clazzid=clazzid.clazz_id)
+            # print clazz
+            cour_list = []
+            for cour in courses:
+                # print cour.course
+                cour_list.append(cour.course)
+
+        return render(request,'gradelr.html',{'stus':stus,'cour_list':cour_list,'clazz':clazz})
     else:
         #获取参数
         studentname = request.POST.get('studentname','')
@@ -79,7 +91,7 @@ def gradelr_view(request):
                 return HttpResponse('数据库已有该成绩')
             except Grade.DoesNotExist:
                 Grade.objects.create(studentid=student, courseid=course, grade=grade)
-                return render(request,'gradelr.html')
+                return redirect('/student/gradelr/')
 
         return HttpResponse('添加数据不完整')
 
@@ -144,8 +156,6 @@ def get_page(num):
         end = pages.num_pages+1
     return pages.page(num),range(start,end)
 
-
-
 def show_view(request,num = '1'):
         # stus = TStudent.objects.all()
         stus,page_range = get_page(num)
@@ -159,9 +169,6 @@ def show_view(request,num = '1'):
                 cour_list.append(ccc)
             print cour_list
         return render(request,'show.html',{'stus':stus,'page_range':page_range,'cour_list':cour_list})
-
-
-
 
 def operate_view(request):
     if request.method == 'GET':
@@ -238,7 +245,6 @@ def operate_view(request):
                 stus = TStudent.objects.filter(age__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
 
-
 def del1_view(request,delid):
     print delid
     try:
@@ -252,14 +258,8 @@ def del1_view(request,delid):
     stu.delete()
     return redirect('/student/operate/')
 
-
-
-
-
-
 def course_view(request):
     return render(request,'course.html')
-
 
 def addCourse_view(request):
     if request.method=='GET':
@@ -304,7 +304,6 @@ def addCourse_view(request):
                     TTeacherCourse.objects.create(teacherid=tname, courseid=course)
         return redirect('/student/showCourse/')
 
-
 def showCourse_view(request):
     courses = TCourse.objects.all()
     messages=showAll(courses)
@@ -320,7 +319,6 @@ def showCourse_view(request):
         t_pre_page = paginator.page(paginator.num_pages)
 
     return render(request,'showCourse.html',{'paginator':paginator,'t_pre_page':t_pre_page})
-
 
 def operCourse_view(request):
     if request.method=='GET':
@@ -370,7 +368,6 @@ def operCourse_view(request):
                 courses.append(course)
             messages = showAll(courses)
         return render(request, 'operCourse.html', {'messages': messages})
-
 
 def delCourse_view(request,courseid):
     # print courseid
