@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^$',views.login_view,name='login'),
     url(r'^student/',include('student.urls')),
     url(r'ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^library/',include('library.urls')),
     url(r'^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT})
 ]

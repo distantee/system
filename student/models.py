@@ -12,6 +12,135 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class BlogCategory(models.Model):
+    cname = models.CharField(unique=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_category'
+
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=20)
+    desc = models.TextField()
+    content = models.TextField()
+    created = models.DateTimeField()
+    modified = models.DateTimeField()
+    category = models.ForeignKey(BlogCategory, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_post'
+
+
+class BlogPostTag(models.Model):
+    post = models.ForeignKey(BlogPost, models.DO_NOTHING)
+    tag = models.ForeignKey('BlogTag', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_post_tag'
+        unique_together = (('post', 'tag'),)
+
+
+class BlogTag(models.Model):
+    tname = models.CharField(unique=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_tag'
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
 class DjangoMigrations(models.Model):
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -22,8 +151,18 @@ class DjangoMigrations(models.Model):
         db_table = 'django_migrations'
 
 
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
 class Grade(models.Model):
-    gradeid = models.IntegerField(primary_key=True)
+    gradeid = models.AutoField(primary_key=True)
     studentid = models.ForeignKey('TStudent', models.DO_NOTHING, db_column='studentid', blank=True, null=True)
     courseid = models.ForeignKey('TCourse', models.DO_NOTHING, db_column='courseid', blank=True, null=True)
     grade = models.IntegerField(blank=True, null=True)
@@ -38,6 +177,9 @@ class TBook(models.Model):
     bookname = models.CharField(max_length=20, blank=True, null=True)
     press = models.CharField(max_length=30, blank=True, null=True)
     author = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    time = models.CharField(max_length=20, blank=True, null=True)
+    introduce = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -45,7 +187,7 @@ class TBook(models.Model):
 
 
 class TClazz(models.Model):
-    clazzid = models.IntegerField(primary_key=True)
+    clazzid = models.AutoField(primary_key=True)
     clazzname = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -54,7 +196,7 @@ class TClazz(models.Model):
 
 
 class TCourse(models.Model):
-    courseid = models.IntegerField(primary_key=True)
+    courseid = models.AutoField(primary_key=True)
     coursename = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -63,7 +205,7 @@ class TCourse(models.Model):
 
 
 class TStudent(models.Model):
-    studentid = models.IntegerField(primary_key=True)
+    studentid = models.AutoField(primary_key=True)
     studentname = models.CharField(max_length=20, blank=True, null=True)
     clazz = models.ForeignKey(TClazz, models.DO_NOTHING, db_column='clazz', blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
@@ -75,7 +217,7 @@ class TStudent(models.Model):
 
 
 class TStuentCourse(models.Model):
-    xkid = models.IntegerField(primary_key=True)
+    xkid = models.AutoField(primary_key=True)
     student = models.ForeignKey(TStudent, models.DO_NOTHING, db_column='student', blank=True, null=True)
     course = models.ForeignKey(TCourse, models.DO_NOTHING, db_column='course', blank=True, null=True)
 
@@ -85,7 +227,7 @@ class TStuentCourse(models.Model):
 
 
 class TTeacher(models.Model):
-    teacherid = models.IntegerField(primary_key=True)
+    teacherid = models.AutoField(primary_key=True)
     teachername = models.CharField(max_length=20, blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
@@ -96,7 +238,7 @@ class TTeacher(models.Model):
 
 
 class TTeacherCourse(models.Model):
-    rkid = models.IntegerField(primary_key=True)
+    rkid = models.AutoField(primary_key=True)
     teacherid = models.ForeignKey(TTeacher, models.DO_NOTHING, db_column='teacherid', blank=True, null=True)
     courseid = models.ForeignKey(TCourse, models.DO_NOTHING, db_column='courseid', blank=True, null=True)
 
@@ -104,10 +246,7 @@ class TTeacherCourse(models.Model):
         managed = False
         db_table = 't_teacher_course'
 
-
-
-#栏目管理的具体内容
-#分类表：分为三类-教师-学生-校园
+#分类表
 class Category(models.Model):
     id=models.AutoField(primary_key=True,unique=True)
     cname=models.CharField(max_length=20,unique=True,verbose_name='分类名称')
@@ -117,9 +256,9 @@ class Category(models.Model):
 
     class Meta:
         db_table='blog_category'
-        verbose_name_plural='分类管理表'
+        verbose_name_plural='分类表'
 
-#标签表  标签分为三类：奖励、惩罚、飞跃进步
+#标签表
 class Tag(models.Model):
     id=models.AutoField(primary_key=True,unique=True)
     tname=models.CharField(max_length=20,unique=True,verbose_name='标签名称')
@@ -129,7 +268,7 @@ class Tag(models.Model):
 
     class Meta:
         db_table='blog_tag'
-        verbose_name_plural = '标签管理表'
+        verbose_name_plural = '标签表'
 
 #帖子表
 class Post(models.Model):
@@ -153,4 +292,4 @@ class Post(models.Model):
 
     class Meta:
         db_table='blog_post'
-        verbose_name_plural = '帖子管理表'
+        verbose_name_plural = '帖子表'

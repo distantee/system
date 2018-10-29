@@ -1,13 +1,12 @@
 
-  <div class="leftnav-title"><span class="icon-list"></span></div>
-  <h2><span class="icon-user"></span>基本管理</h2>
-  <ul style="display:block">
-    <li><a href="info.html" target="right"><span class="icon-caret-right"></span>学生信息</a></li>
-    <li><a href="pass.html" target="right"><span class="icon-caret-right"></span>课程信息</a></li>
-    <li><a href="page.html" target="right"><span class="icon-caret-right"></span>成绩信息</a></li>
-    <li><a href="adv.html" target="right"><span class="icon-caret-right"></span>教师信息</a></li>
-
-  </ul>
+<div class="leftnav-title"><span class="icon-list"></span></div>
+<h2><span class="icon-user"></span>基本管理</h2>
+<ul style="display:block">
+    <li><a href="/student/show/1" target="_self"><span class="icon-caret-right"></span>学生信息</a></li>
+    <li><a href="/student/course/" target="_self"><span class="icon-caret-right"></span>课程信息</a></li>
+    <li><a href="/student/grade/" target="_self"><span class="icon-caret-right"></span>成绩信息</a></li>
+    <li><li><a href="{% url 'library' %}" target="right"><span class="icon-caret-right"></span>图书信息</a></li>
+</ul>
   <h2><a href=""><span class="icon-pencil-square-o"></span>栏目管理</a></h2>
   <ul>
   <li><a href="/student/c_news/" target="right"><span class="icon-caret-right"></span>近期要闻</a></li>

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+        <li><a href="{% url 'index' %}" target="right" class="icon-home"> 首页</a></li>
+        <li><a href="#" id="a_leader_txt">网站信息</a></li>
+        <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
+        <li><a href="{% url 'bookdata' %}" id="a_leader_txt">图书展示</a></li>
+
+
+{% endblock %}
+{% block right %}
+
+        <form action="/library/showbook/{{ bi.bookid }}" method="post">
+            {% csrf_token %}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <table width="600px" align="center" style="height: 400px">
+                <tr>
+                    <td style="width:20%;" align="center">书号:</td>
+                    <td style="width:30%;"><input type="text" name="bookid" value="{{ bi.bookid }}"/></td>
+                    <td style="width:20%;" align="center">书名:</td>
+                    <td ><input type="text" name="bookname" value="{{ bi.bookname }}"/></td>
+                    </tr>
+                <tr>
+                    <td align="center">作者:</td>
+                    <td><input type="text" name="author" value="{{ bi.author }}"/></td>
+                    <td align="center">价格:</td>
+                    <td><input type="text" name="price" value="{{ bi.price }}"/><span>(元)</span></td>
+
+                </tr>
+                <tr>
+                    <td align="center">出版社:</td>
+                    <td><input type="text" name="press" value="{{ bi.press }}"/></td>
+                    <td align="center">入库时间:</td>
+                    <td><input type="text" name="time"  value="{{ bi.time }}"/></td>
+                </tr>
+                <tr>
+                    <td align="center">图书简介:</td>
+                    <td colspan="3"><textarea name="introduce" id="" cols="62" rows="3" >{{ bi.introduce }}</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right"><input type="submit" value="修改"></td>&emsp;
+                    <td colspan="2" align="left"><input type="reset" value="重置"></td>
+                </tr>
+            </table>
+            <p><a href="{% url 'bookdata' %}">返回展示页面</a></p>
+        </form>
+
+{% endblock %}

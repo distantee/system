@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'student',
     'ckeditor',
     'ckeditor_uploader',
+    'library',
 ]
 
 MIDDLEWARE = [
