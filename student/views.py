@@ -37,6 +37,53 @@ def index_view(request):
     return render(request,'index.html')
 
 
+def all_meuns(request):
+    return render(request,'all_menus.html')
+
+
+def getpage(num,size):
+    posts=Paginator(Post.objects.order_by('-created'),size)
+    if num<=0:
+        num=1
+    if num>=posts.num_pages:
+        num=posts.num_pages
+    start=num
+    end=start+3
+    if end>posts.num_pages:
+        end=posts.num_pages
+    return posts.page(num),range(start,end)
+def c_manage(request,num='1'):
+    num=int(num)
+    posts,page_range=getpage(num,3)
+    return render(request, 'c_manage.html', {'posts': posts,'page_range':page_range})
+
+
+
+
+def c_news(request):
+    return render(request,'c_news.html')
+
+
+def c_simply(request):
+    c_post=Post.objects.all()
+    return render(request, 'c_simply.html',{'c_post':c_post})
+
+def c_time(request):
+    return render(request, 'c_time.html')
+
+
+def post_view(request,postId):
+    post=Post.objects.get(id=postId)
+    return render(request,'post.html',{'post':post})
+
+
+def archive_view(request,year,month):
+    # print year,month
+    c_post = Post.objects.filter(created__year=year, created__month=month)
+    # print c_post
+    return render(request,'archive.html',{'c_post':c_post})
+
+
 def grade_view(request):
     grades = Grade.objects.all()
     #print grades
@@ -66,17 +113,17 @@ def gradelr_view(request):
     if request.method == 'GET':
         stus = TStudent.objects.all()
         clazz = TClazz.objects.all()
+        cours_list = []
         for stu in stus:
             courses =TStuentCourse.objects.filter(student=stu.studentid)
-            # clazzid = TStudent.objects.get(studentid=stu.studentid)
-            # clazz = TClazz.objects.get(clazzid=clazzid.clazz_id)
-            # print clazz
+            # print courses
             cour_list = []
             for cour in courses:
-                # print cour.course
                 cour_list.append(cour.course)
+            print cour_list
+            cours_list.append(cour_list)
 
-        return render(request,'gradelr.html',{'stus':stus,'cour_list':cour_list,'clazz':clazz})
+        return render(request,'gradelr.html',{'stus':stus,'cour_list':cours_list,'clazz':clazz})
     else:
         #获取参数
         studentname = request.POST.get('studentname','')
@@ -159,15 +206,15 @@ def get_page(num):
 def show_view(request,num = '1'):
         # stus = TStudent.objects.all()
         stus,page_range = get_page(num)
+        cour_list = []
         for sol in stus.object_list:
             course = TStuentCourse.objects.filter(student=sol.studentid)
             # print course
-            cour_list = []
+
             for cour in course:
                 c = cour.course_id
                 ccc = TCourse.objects.get(courseid=c)
                 cour_list.append(ccc)
-            print cour_list
         return render(request,'show.html',{'stus':stus,'page_range':page_range,'cour_list':cour_list})
 
 def operate_view(request):
@@ -372,6 +419,7 @@ def operCourse_view(request):
 def delCourse_view(request,courseid):
     # print courseid
     TTeacherCourse.objects.filter(courseid=courseid).delete()
+    Grade.objects.filter(courseid=courseid).delete()
     TStuentCourse.objects.filter(course=courseid).delete()
     TCourse.objects.get(courseid=courseid).delete()
 
