@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.login_view,name='login'),
     url(r'^student/',include('student.urls')),
+    url(r'^library/',include('library.urls')),
 ]

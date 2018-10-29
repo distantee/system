@@ -159,15 +159,15 @@ def get_page(num):
 def show_view(request,num = '1'):
         # stus = TStudent.objects.all()
         stus,page_range = get_page(num)
+        cour_list = []
         for sol in stus.object_list:
             course = TStuentCourse.objects.filter(student=sol.studentid)
             # print course
-            cour_list = []
+
             for cour in course:
                 c = cour.course_id
                 ccc = TCourse.objects.get(courseid=c)
                 cour_list.append(ccc)
-            print cour_list
         return render(request,'show.html',{'stus':stus,'page_range':page_range,'cour_list':cour_list})
 
 def operate_view(request):

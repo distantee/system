@@ -136,6 +136,9 @@ class TBook(models.Model):
     bookname = models.CharField(max_length=20, blank=True, null=True)
     press = models.CharField(max_length=30, blank=True, null=True)
     author = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    time = models.CharField(max_length=20, blank=True, null=True)
+    introduce = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
         managed = False
