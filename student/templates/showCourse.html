@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    <li><a href="{% url 'course' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
+    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >操作</a></li>
 {% endblock %}
 
 {% block right %}
@@ -19,7 +21,7 @@
                 height: 30px;
                 line-height: 30px;
             }
-            a{
+            #udline{
                 text-decoration: underline;
                 margin-right: 6px;
             }
@@ -46,24 +48,24 @@
                     </td>
 
                     <td>{{ message.2 }}</td>
-                    <td><a href="/student/delCourse/{{ message.0.courseid }}">删除</a></td>
+                    <td><a href="/student/delCourse/{{ message.0.courseid }}" id="udline">删除</a></td>
                 </tr>
 
             {% endfor %}
             <tr>
                 <td colspan="5" align="center">
                     {% if t_pre_page.has_previous %}
-                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.previous_page_number }}">上一页</a>
+                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.previous_page_number }}" id="udline">上一页</a>
                     {% endif %}
 
                     {% for n in paginator.page_range %}
                         {% if n <= 3 %}
-                            <a href="{% url 'showCourse' %}?num={{ n }}">{{ n }}</a>
+                            <a href="{% url 'showCourse' %}?num={{ n }}" id="udline">{{ n }}</a>
                         {% endif %}
                     {% endfor %}
 
                     {% if t_pre_page.has_next %}
-                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.next_page_number }}">下一页</a>
+                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.next_page_number }}" id="udline">下一页</a>
                     {% endif %}
                 </td>
             </tr>

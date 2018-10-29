@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    <li><a href="{% url 'course' %}" id="a_leader_txt" >课程信息</a></li>
-    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >查询信息</a></li>
+    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
+    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
+    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >操作</a></li>
 {% endblock %}
 
 {% block right %}
