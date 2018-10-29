@@ -1,21 +1,100 @@
 {% extends 'base.html' %}
 {% block title %}
-    <li><a href="" target="right" class="icon-home"> 首页</a></li>
-    <li><a href="" id="a_leader_txt">网站信息</a></li>
+{#    <li><a href="" target="right" class="icon-home"> 首页</a></li>#}
+{#    <li><a href="" id="a_leader_txt">网站信息</a></li>#}
 
 {% endblock title%}
 
 {% block right %}
-{#    <iframe scrolling="auto" rameborder="0" src="info.html" name="right" width="100%" height="100%">#}
-{##}
-{#    </iframe>#}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
 
+		<style type="text/css">
+			table{
+				border: 0px solid black;
+			}
 
+            img{
+                border: 0px solid cornflowerblue;
+            }
+
+			#smallimg{
+                width: 90px;
+                height: 90px;
+			}
+
+			#oo{
+				height: 15px;
+			}
+
+			img:hover{
+				border-color: red;
+			}
+
+            #bigImg{
+                width: 1120px;
+                height: 420px;
+            }
+
+		</style>
+
+		<script type="text/javascript">
+			function changeBigImgsrc(path){
+				//获取到存储大图片的元素对象
+				var bigImg=document.getElementById("bigImg");
+
+				//通过改变元素的属性src来实现图片切换
+				bigImg.src=path;
+			}
+		</script>
+	</head>
+	<body>
+		<table align="center">
+			<tr>
+				<td colspan="6">
+					<img id="bigImg" src="{% static '0011_wj.jpg' %}" />
+				</td>
+			</tr>
+			<tr id="oo">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<img id="smallimg" src="{% static '0011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0011_wj.jpg' %}' );"/>
+
+					<img id="smallimg" src="{% static '0022_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0022_wj.jpg' %}');"/>
+
+					<img id="smallimg" src="{% static '0033_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0033_wj.jpg' %}');"/>
+
+					<img id="smallimg" src="{% static '0044_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0044_wj.jpg' %}');" />
+
+					<img id="smallimg" src="{% static '0055_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0055_wj.jpg' %}');" />
+
+					<img id="smallimg" src="{% static '0066_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0066_wj.jpg' %}');" />
+
+                    <img id="smallimg" src="{% static '77_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '77_wj.jpg' %}' );"/>
+
+                    <img id="smallimg" src="{% static '88_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '88_wj.jpg' %}' );"/>
+
+                    <img id="smallimg" src="{% static '99_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '99_wj.jpg' %}' );"/>
+
+                    <img id="smallimg" src="{% static '10_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '10_wj.jpg' %}' );"/>
+
+                    <img id="smallimg" src="{% static '011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '011_wj.jpg' %}' );"/>
+
+                    <img id="smallimg" src="{% static '012_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '012_wj.jpg' %}' );"/>
+
+                </td>
+			</tr>
+		</table>
+	</body>
+</html>
 {% endblock %}
-
-
-
-
-
-
-

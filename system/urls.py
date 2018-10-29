@@ -15,10 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.views.static import serve
+
 import views
+from system.settings import MEDIA_ROOT
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.login_view,name='login'),
     url(r'^student/',include('student.urls')),
+    url(r'ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^library/',include('library.urls')),
+    url(r'^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT})
 ]

@@ -1,3 +1,4 @@
+#coding=utf-8
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -7,6 +8,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
 
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 
@@ -74,6 +76,45 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
+
+
+class BlogCategory(models.Model):
+    cname = models.CharField(unique=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_category'
+
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=20)
+    desc = models.TextField()
+    content = models.TextField()
+    created = models.DateTimeField()
+    modified = models.DateTimeField()
+    category = models.ForeignKey(BlogCategory, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_post'
+
+
+class BlogPostTag(models.Model):
+    post = models.ForeignKey(BlogPost, models.DO_NOTHING)
+    tag = models.ForeignKey('BlogTag', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_post_tag'
+        unique_together = (('post', 'tag'),)
+
+
+class BlogTag(models.Model):
+    tname = models.CharField(unique=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'blog_tag'
 
 
 class DjangoAdminLog(models.Model):
@@ -204,3 +245,51 @@ class TTeacherCourse(models.Model):
     class Meta:
         managed = False
         db_table = 't_teacher_course'
+
+#分类表
+class Category(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    cname=models.CharField(max_length=20,unique=True,verbose_name='分类名称')
+
+    def __unicode__(self):
+        return  u'Category:%s'%self.cname
+
+    class Meta:
+        db_table='blog_category'
+        verbose_name_plural='分类表'
+
+#标签表
+class Tag(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    tname=models.CharField(max_length=20,unique=True,verbose_name='标签名称')
+
+    def __unicode__(self):
+        return u'Tag:%s'%self.tname
+
+    class Meta:
+        db_table='blog_tag'
+        verbose_name_plural = '标签表'
+
+#帖子表
+class Post(models.Model):
+    id=models.AutoField(primary_key=True,unique=True)
+    #标题
+    title=models.CharField(max_length=20,verbose_name='标题')
+    #简介
+    desc=models.TextField(verbose_name='简介')
+    #内容
+    content=RichTextUploadingField()
+    #创建时间
+    created=models.DateTimeField(verbose_name='创建时间')
+    #修改时间
+    modified=models.DateTimeField(auto_now_add=True,verbose_name='修改时间')
+    #外键连接
+    category=models.ForeignKey(Category,on_delete=models.CASCADE,verbose_name='分类详情')
+    tag=models.ManyToManyField(Tag,verbose_name='可选标签')
+
+    def __unicode__(self):
+        return u'Post:%s'%self.title
+
+    class Meta:
+        db_table='blog_post'
+        verbose_name_plural = '帖子表'

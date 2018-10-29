@@ -7,7 +7,6 @@ def login_view(request):
     if request.method == 'GET':
         return render(request,'login.html')
     else:
-        print request.method
         name = request.POST.get('name')
         pwd = request.POST.get('password')
         # print name,pwd
