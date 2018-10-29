@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="{% url 'course' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >添加信息</a></li>
+{% endblock %}
+
+{% block right %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style type="text/css">
+            table{
+                border: 1px solid black;
+                border-radius: 10px;
+            }
+            td{
+                border: 1px solid black;
+                width: 40px;
+            }
+            .tab1{
+                width:35%;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+                line-height: 40px;
+            }
+            input{
+                margin: auto 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="{% url 'addCourse' %}" method="post" >
+            {% csrf_token %}
+            <h3 align="center" style="font-weight: bold;margin: 20px 0">添加课程信息</h3>
+            <table style="width: 30%;" align="center">
+                <tr >
+                    <td class="tab1">课程名称:</td>
+                    <td ><input type="text" name="coursename" id="" style="height: 25px"></td>
+                </tr>
+                <tr>
+                    <td class="tab1" style="margin-top: 10px">任课教师:</td>
+                    <td>
+                        <input type="text" name="rkTname" id="">
+                        <select name="rkTname" id="" multiple="multiple" size="3" style="margin: 15px 20px">
+                            <option value="-1">-请选择教师-</option>
+                            {% for teacher in teachers %}
+                                <option value="{{ teacher.teachername }}">{{ teacher.teachername }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="tab1">
+                        <input type="reset" value="重置">
+                        <input type="submit" value="添加">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+    </html>
+{% endblock %}
