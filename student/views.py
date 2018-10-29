@@ -66,17 +66,17 @@ def gradelr_view(request):
     if request.method == 'GET':
         stus = TStudent.objects.all()
         clazz = TClazz.objects.all()
+        cours_list = []
         for stu in stus:
             courses =TStuentCourse.objects.filter(student=stu.studentid)
-            # clazzid = TStudent.objects.get(studentid=stu.studentid)
-            # clazz = TClazz.objects.get(clazzid=clazzid.clazz_id)
-            # print clazz
+            # print courses
             cour_list = []
             for cour in courses:
-                # print cour.course
                 cour_list.append(cour.course)
+            print cour_list
+            cours_list.append(cour_list)
 
-        return render(request,'gradelr.html',{'stus':stus,'cour_list':cour_list,'clazz':clazz})
+        return render(request,'gradelr.html',{'stus':stus,'cour_list':cours_list,'clazz':clazz})
     else:
         #获取参数
         studentname = request.POST.get('studentname','')
@@ -159,15 +159,15 @@ def get_page(num):
 def show_view(request,num = '1'):
         # stus = TStudent.objects.all()
         stus,page_range = get_page(num)
+        cour_list = []
         for sol in stus.object_list:
             course = TStuentCourse.objects.filter(student=sol.studentid)
             # print course
-            cour_list = []
+
             for cour in course:
                 c = cour.course_id
                 ccc = TCourse.objects.get(courseid=c)
                 cour_list.append(ccc)
-            print cour_list
         return render(request,'show.html',{'stus':stus,'page_range':page_range,'cour_list':cour_list})
 
 def operate_view(request):
@@ -372,6 +372,7 @@ def operCourse_view(request):
 def delCourse_view(request,courseid):
     # print courseid
     TTeacherCourse.objects.filter(courseid=courseid).delete()
+    Grade.objects.filter(courseid=courseid).delete()
     TStuentCourse.objects.filter(course=courseid).delete()
     TCourse.objects.get(courseid=courseid).delete()
 
