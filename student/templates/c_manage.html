@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <li><a href="/student/c_manage/1" id="a_leader_event"
+           style="color: #1e242a;font-weight: bold;background-color: #66d9ef" target="_self">内容管理</a></li>
+{% endblock title %}
+
+{% block right %}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>内容管理</title>
+        <link rel="stylesheet" href="{% static 'css_wj1.css' %}">
+        <link rel="stylesheet" href="{% static 'js_wj1.js' %}">
+    </head>
+    <body>
+    {% for post in posts.object_list %}
+        <article class="article article-type-post">
+            <div class="article-meta">
+                <a class="article-date">
+                    <time>{{ post.created|date:'Y年m月d日 H:m:s ' }}</time>
+                </a>
+                <div class="article-category">
+                    <a class="article-category-link" href="http://localhost:8000/#"
+                       target="_blank">{{ post.category.cname }}</a>
+                </div>
+            </div>
+
+            {#style="background: lavender"#}
+            <div class="article-inner">
+                <header class="article-header">
+                    <h1 itemprop="name">
+                        <a class="article-title" href="/student/post/{{ post.id }}" target="_blank">{{ post.title }}</a>
+                    </h1>
+                </header>
+                <div class="article-entry" itemprop="articleBody">
+                    <h2>简介</h2>
+                    <hr>
+                    {{ post.desc|truncatechars:25 }}
+
+
+                    <p class="article-more-link">
+                        <a href="/student/post/{{ post.id }}" target="_blank">阅读全文</a>
+                    </p>
+                </div>
+                <footer class="article-footer">
+                    <a data-url="存放文章的url" class="article-share-link">分享</a>
+                    <ul class="article-tag-list">
+                        {% for pt in post.tag.all %}
+                            <li class="article-tag-list-item">
+                                <a class="article-tag-list-link" href="http://localhost:8000/#">{{ pt.tname }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </footer>
+            </div>
+        </article>
+    {% endfor %}
+    <nav id="page-nav">
+        {% if posts.has_previous %}
+            <a class="page-number" href="/student/c_manage/{{ posts.previous_page_number }}"> 上一页</a>
+        {% endif %}
+
+        {% for pr in page_range %}
+            {#        {{ posts.number }}#}
+            {% if posts.number == pr %}
+                <a style="color: #1e242a;font-weight: bold;background-color: #66d9ef" href="/student/c_manage/{{ pr }}">{{ pr }}</a>
+            {% else %}
+                <a href="/student/c_manage/{{ pr }}">{{ pr }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+            <a class="page-number" href="/student/c_manage/{{ posts.next_page_number }}">下一页</a>
+        {% endif %}
+    </nav>
+    </body>
+    </html>
+{% endblock right %}
