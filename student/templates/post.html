@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    <li><a href="/student/c_manage/1" id="a_leader_event">内容管理</a></li>
+    <li><a href="/student/c_manage/1" id="a_leader_event" style="background-color: skyblue">内容管理</a></li>
 {% endblock title %}
 
 {% block right %}
@@ -36,7 +36,7 @@
                     </h1>
                 </header>
                 <div class="article-entry" itemprop="articleBody">
-                    <h2>前言</h2>
+                    <h2>简介</h2>
                     {% autoescape off %}
                         {{ post.content }}
                     {% endautoescape %}

@@ -3,7 +3,7 @@
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
     <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
-    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >操作</a></li>
+    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" style="background-color: skyblue">操作</a></li>
 {% endblock %}
 
 {% block right %}
@@ -75,7 +75,10 @@
                         </td>
 
                         <td>{{ message.2 }}</td>
-                        <td><a href="/student/delCourse/{{ message.0.courseid }}">删除</a></td>
+                        <td>
+                            <a href="/student/modifCourse/{{ message.0.courseid }}">修改</a>|
+                            <a href="/student/delCourse/{{ message.0.courseid }}">删除</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
