@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
     <li><a href="/student/gradecx/">成绩查询</a></li>
     <li><a href="/student/gradelr/" style="background-color: skyblue">成绩录入</a></li>
@@ -29,28 +28,27 @@
              <tr>
                 <td>
 {#                    <input type="text" name="studentname">#}
-                    <select name="studentname">
+                    <select name="studentname" id="studentname" onchange="test1(this.value)">
                         <option value="-1">-请 选 择 姓 名-</option>
                         {% for stu in stus %}
-                            <option value="{{ stu.studentname }}" >{{ stu.studentname }}</option>
+                            <option  value="{{ stu.studentname }}" >{{ stu.studentname }}</option>
                         {% endfor %}
                     </select>
                 </td>
                 <td>
-                    <select name="clazzname">
+                    <select name="clazzname" id="clazzname">
                         <option value="-1">-请 选 择 班 级-</option>
-                        {% for cla in clazz %}
-                            <option value="{{ cla.clazzname }}" >{{ cla.clazzname }}</option>
-                        {% endfor %}
+                            <option value="{{ clazz.clazzname }}" >{{ clazz.clazzname }}</option>
+
                     </select>
                 </td>
 {#                <td>#}
 {#                    <input type="text" name="coursename" value="{{ clazz }}">#}
 {#                </td>#}
                 <td>
-                    <select name="coursename">
+                    <select name="coursename" id="coursename">
                         <option value="-1">-请 选 择 课 程-</option>
-                        {% for cour in cour_list.0 %}
+                        {% for cour in courseList %}
                             <option value="{{ cour.coursename }}" >{{ cour.coursename }}</option>
                         {% endfor %}
                     </select>

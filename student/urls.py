@@ -21,9 +21,14 @@ urlpatterns = [
     #时间详情页表路由
     url(r'^archive/(\d+)/(\d+)', views.archive_view),
     # url(r'^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT})
+    #成绩分页
+    url(r'^pagegrade/(\d+)', views.gradecx_view),
+    #成绩查询
     url(r'^gradecx/',views.gradecx_view),
+    #成绩录入
     url(r'^gradelr/',views.gradelr_view),
-    url(r'^delete/(\d+)',views.deletegrade_view),
+    #删除成绩
+    url(r'^delgrade/(\d+)',views.delgrade_view),
     #添加课程信息
     url(r'^addCourse/',views.addCourse_view,name='addCourse'),
     #展示课程信息
@@ -38,5 +43,6 @@ urlpatterns = [
     url(r'^register/',views.register_view,name='register'),
     url(r'^operate/',views.operate_view,name='operate'),
     url(r'^del1/(\d+)',views.del1_view,name='del1'),
+    url(r'^update/(\d+)',views.update_view,name='update'),
 
 ]
