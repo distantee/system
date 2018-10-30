@@ -1,17 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    <li><a href="/student/c_news/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef" target="_self">近期要闻</a></li>
+    <li><a href="/student/c_news/" id="a_leader_event" style="color: #1e242a;background-color: skyblue" target="_self">近期要闻</a></li>
 {% endblock title %}
 
 {% block right %}
-{#    <ul >#}
-{#            {% for rec in recent %}#}
-{#            <li>#}
-{#                <a href="/post/{{ rec.id }}" target="_blank">{{ rec.created|date:'Y年m月d日' }}</a>#}
-{#                <a href="/post/{{ rec.id }}" target="_blank">{{ rec.title }}</a>#}
-{#            </li>#}
-{#            {% endfor %}#}
-{#    </ul>#}
     <table align="center" border="1px" cellpadding="9px" cellspacing="0" width="800px" >
             <tr align="center" bgcolor="#7fffd4" height="22px">
                 <th>发布时间</th>

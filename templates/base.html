@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="{% static 'css4.css' %}">
     <link rel="stylesheet" href="{% static 'css5.css' %}">
     <script src="{% static 'js4.js' %}"></script>
-    <script src="{% static 'js3.js' %}"></script>
+    <script src="{% static 'cjjs.js' %}"></script>
 
+    <script src="{% static 'js3.js' %}"></script>
 </head>
 <body style="background-color:#f2f9fd;" onload="getTime()">
     <div class="header bg-main">
@@ -34,18 +35,16 @@
         });
     </script>
     <ul class="bread">
-        <li><a href="/student/index/" target="_self" class="icon-home"> 首页</a></li>
-        <li><a href="http://www.baidu.com/" id="a_leader_web">网站信息</a></li>
+        <li><a href="/student/index/" target="right" class="icon-home"> 首页</a></li>
+        <li><a href="http://www.baidu.com" id="a_leader_txt">网站信息</a></li>
         {% block title %}
 
-        {% endblock %}
-
-
+        {% endblock title %}
     </ul>
     <div class="admin">
         {% block right %}
 
-        {% endblock %}
+        {% endblock right %}
     </div>
     <div style="text-align:center;">
         <p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>

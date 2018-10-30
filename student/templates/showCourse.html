@@ -2,7 +2,7 @@
 {% block title %}
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
     <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
-    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
+    <li><a href="{% url 'showCourse'%}" id="a_leader_txt" style="background-color: skyblue">展示信息</a></li>
     <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >操作</a></li>
 {% endblock %}
 
@@ -25,6 +25,10 @@
                 text-decoration: underline;
                 margin-right: 6px;
             }
+            .setstyle{
+                font-size: 15px;
+                margin-right: 10px;
+            }
         </style>
     </head>
     <body>
@@ -37,35 +41,43 @@
                 <td>选课人数</td>
                 <td>操作</td>
             </tr>
-            {% for message in t_pre_page %}
+{#        从大列表中遍历得到每门课程的对应信息的那个小列表,其中第一项是课程，第二项是对应教师，第三项是选课人数#}
+            {% for message in messages %}
                 <tr align="center">
                     <td>{{ message.0.courseid }}</td>
                     <td>{{ message.0.coursename }}</td>
                     <td >
+{#                    遍历所对应教师信息#}
                         {% for teacher in message.1 %}
                             {{ teacher.teachername }}
                         {% endfor %}
                     </td>
 
                     <td>{{ message.2 }}</td>
-                    <td><a href="/student/delCourse/{{ message.0.courseid }}" id="udline">删除</a></td>
+                    <td>
+                        <a href="/student/modifCourse/{{ message.0.courseid }}" id="udline">修改</a>|
+                        <a href="/student/delCourse/{{ message.0.courseid }}" id="udline">删除</a>
+                    </td>
                 </tr>
 
             {% endfor %}
             <tr>
                 <td colspan="5" align="center">
-                    {% if t_pre_page.has_previous %}
-                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.previous_page_number }}" id="udline">上一页</a>
+                {# 判断是否由上一页，有则显示上一页链接#}
+                    {% if messages.has_previous %}
+                        <a href="{% url 'showCourse' %}?num={{ messages.previous_page_number }}" class="setstyle">上一页</a>
                     {% endif %}
-
-                    {% for n in paginator.page_range %}
-                        {% if n <= 3 %}
-                            <a href="{% url 'showCourse' %}?num={{ n }}" id="udline">{{ n }}</a>
-                        {% endif %}
+                    {# 展示中间显示页数个数 #}
+                    {% for n in page_range %}
+                            {% if n == messages.number %}
+                                <a href="{% url 'showCourse' %}?num={{ n }}" class="setstyle" style="background-color:powderblue;color:#999999">{{ n }}</a>
+                                {% else %}
+                                <a href="{% url 'showCourse' %}?num={{ n }}" class="setstyle" >{{ n }}</a>
+                            {% endif %}
                     {% endfor %}
-
-                    {% if t_pre_page.has_next %}
-                        <a href="{% url 'showCourse' %}?num={{ t_pre_page.next_page_number }}" id="udline">下一页</a>
+                {# 判断是否由下一页，有则显示下一页链接#}
+                    {% if messages.has_next %}
+                        <a href="{% url 'showCourse' %}?num={{ messages.next_page_number }}" class="setstyle">下一页</a>
                     {% endif %}
                 </td>
             </tr>

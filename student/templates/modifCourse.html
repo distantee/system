@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
+    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
+    <li><a href="{% url 'showCourse'%}" id="a_leader_txt" >展示信息</a></li>
+    <li><a href="{% url 'operCourse' %}" id="a_leader_txt" style="background-color: skyblue">操作</a></li>
+{% endblock %}
+
+{% block right %}
+    <form action="/student/modifCourse/{{ messages.0.0.courseid }}" method="post">
+    {% csrf_token %}
+        <table border="1px solid black" align="center" style="line-height: 40px; margin: 40px auto;border-radius: 9px" cellpadding="9px" >
+            <caption style="font-weight: bold;margin: 15px 0px;font-size: 20px">修改课程信息</caption>
+            {% for message in messages %}
+            <tr >
+                <td width="20%" align="center">课程编号:</td>
+                <td ><input type="text" name="coursenum" value="{{ message.0.courseid }}" readonly="readonly"></td>
+
+            </tr>
+            <tr>
+                <td align="center">课程名称:</td>
+                <td>
+                    <input type="text" name="coursename" list="coursename" value="{{ message.0.coursename }}">
+                    <datalist id="coursename">
+                        {% for cours in courses %}
+                            <option value="{{ cours.coursename }}">{{ cours.coursename }}</option>
+                        {% endfor %}
+                    </datalist>
+                </td>
+           </tr>
+           <tr>
+                <td align="center">任课教师:</td>
+                <td width="300px">
+                {% for teacher in message.1 %}
+                    <input type="checkbox" name="rkTeacher" value="{{ teacher.teachername }}" checked="checked" style="width: 20px">{{ teacher.teachername }}
+                {% endfor %}
+                {% for teacher in exceptTeacher %}
+                    <input type="checkbox" name="rkTeacher" value="{{ teacher.teachername }}" style="width: 20px">{{ teacher.teachername }}
+                {% endfor %}
+
+                </td>
+            </tr>
+
+            <tr>
+                <td align="center">选课人数:</td>
+                <td><input type="number" style="width: 50px" min="0" value="{{ message.2 }}" name="xknum" readonly="readonly"></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2">
+                    <input type="reset" value="重置" style="margin-left: 100px">&emsp;&emsp;
+                    <input type="submit" value="保存">
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
