@@ -17,11 +17,14 @@ urlpatterns = [
     url(r'^c_time/', views.c_time),
     url(r'^archive/(\d+)/(\d+)', views.archive_view),
     # url(r'^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT})
-
-    url(r'^grade/',views.grade_view,name='grade'),
+    #成绩分页
+    url(r'^pagegrade/(\d+)', views.gradecx_view),
+    #成绩查询
     url(r'^gradecx/',views.gradecx_view),
+    #成绩录入
     url(r'^gradelr/',views.gradelr_view),
-    url(r'^delete/(\d+)',views.deletegrade_view),
+    #删除成绩
+    url(r'^delgrade/(\d+)',views.delgrade_view),
     url(r'^course/',views.course_view,name='course'),
     url(r'^addCourse/',views.addCourse_view,name='addCourse'),
     url(r'^showCourse/',views.showCourse_view,name='showCourse'),
@@ -31,5 +34,6 @@ urlpatterns = [
     url(r'^register/',views.register_view,name='register'),
     url(r'^operate/',views.operate_view,name='operate'),
     url(r'^del1/(\d+)',views.del1_view,name='del1'),
+    url(r'^update/(\d+)',views.update_view,name='update'),
 
 ]
