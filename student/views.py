@@ -182,35 +182,44 @@ def delgrade_view(request, gradeid):
     return redirect('/student/gradecx/')
 
 
-def register_view(request):
+#学生信息的注册功能
+def  register_view(request):
     if request.method == 'GET':
         clazzs = TClazz.objects.all()
         course = TCourse.objects.all()
         return render(request, 'register.html', {'clazzs': clazzs, 'course': course})
     else:
+        stuid = request.POST.get('stuid')
         sname = request.POST.get('name')
         clazz = request.POST.get('clazz')
         gender = request.POST.get('gender')
         age = request.POST.get('age')
         age = int(age)
+        #学生课程一对多关系，用getlist接受课程列表
         course = request.POST.getlist('course')
-        # print course
-        # print sname,clazz,gender,age
+        #判断班级是否需要添加数据库
         try:
             cls = TClazz.objects.get(clazzname=clazz)
         except TClazz.DoesNotExist:
             cls = TClazz.objects.create(clazzname=clazz)
         cns = []
+        #判断课程
         for cn in course:
             try:
                 cour = TCourse.objects.get(coursename=cn)
             except TCourse.DoesNotExist:
                 cour = TCourse.objects.create(coursename=cn)
             cns.append(cour)
+            # print cns
+        #判断学生
         try:
-            stu = TStudent.objects.get(studentname=sname, clazz=cls, sex=gender, age=age)
+            TStudent.objects.filter(studentid=stuid).update(studentname=sname, clazz=cls, sex=gender, age=age)
+            stu = TStudent.objects.get(studentid=stuid)
         except TStudent.DoesNotExist:
-            stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
+            stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
+            #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
+            TStuentCourse.objects.filter(student=stu).delete()
+            #stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
         for c in cns:
             try:
                 TStuentCourse.objects.get(student=stu, course=c)
@@ -219,11 +228,29 @@ def register_view(request):
 
         return redirect('/student/show/1')
 
-
+#学生信息修改功能
+def update_view(request,num = '1'):
+    #修改单个学生信息，通过学生id获取参数，使用路由位置传参
+    if request.method == 'GET':
+        num = int(num)
+        #通过num值从数据库获取单个学生对象
+        msg = TStudent.objects.get(studentid=num)
+        clazz = TClazz.objects.all()
+        #从数据库课程表获取所有课程信息
+        allcourse = TCourse.objects.all()
+        #从学生课程关系上正向查询该学生所选的课程信息
+        course = TCourse.objects.filter(tstuentcourse__student_id__exact=msg.studentid)
+        # print course
+        return render(request,'update.html',{'msg':msg,'clazz':clazz,'course':course,'allcourse':allcourse})
+    else:
+        pass
+#学生信息分页功能函数封装
 def get_page(num):
     num = int(num)
     per = 1
     pages = Paginator(TStudent.objects.order_by('-studentid'), per)
+    pages = Paginator(TStudent.objects.order_by('-studentid'),per)
+    #判断当前页码是否越界
     if num <= 0:
         num = 1
     if num > pages.num_pages:
@@ -237,9 +264,11 @@ def get_page(num):
     return pages.page(num), range(start, end)
 
 
-def show_view(request, num='1'):
+#学生信息展示页面。为主页显示
+def show_view(request,num = '1'):
     # stus = TStudent.objects.all()
-    stus, page_range = get_page(num)
+    #实现分页功能
+    stus,page_range = get_page(num)
     cour_list = []
     for sol in stus.object_list:
         course = TStuentCourse.objects.filter(student=sol.studentid)
@@ -252,15 +281,21 @@ def show_view(request, num='1'):
     return render(request, 'show.html', {'stus': stus, 'page_range': page_range, 'cour_list': cour_list})
 
 
+#学生信息操作功能，包括修改和删除
 def operate_view(request):
+    #以get进入操作页面时，通过if判断传参跳转到操作对应的html
     if request.method == 'GET':
         stus = TStudent.objects.all()
+        #获取所有学生对象信息进行传参
         return render(request, 'operate.html', {'stus': stus})
     else:
+        #operate页面操作提交后，以post方式提交到该函数，第一步先获取表单数据
         key = request.POST.get('key')
         relation = request.POST.get('relation')
         value = request.POST.get('value')
-        print key, relation, value
+        # print key, relation, value
+        #通过比较传来的参数信息进行判定比较
+        #通过学号进行查询
         if key == 'sid':
             if relation == '>=':
                 stus = TStudent.objects.filter(studentid__gte=value)
@@ -274,6 +309,7 @@ def operate_view(request):
             else:
                 stus = TStudent.objects.filter(studentid__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
+        #通过学生姓名就行提交
         elif key == 'sname':
             if relation == '>=':
                 stus = TStudent.objects.all()
@@ -287,6 +323,7 @@ def operate_view(request):
             else:
                 stus = TStudent.objects.filter(studentname__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
+        #通过班级进行查询
         elif key == 'sclazz':
             if relation == '>=':
                 stus = TStudent.objects.all()
@@ -300,6 +337,7 @@ def operate_view(request):
             else:
                 stus = TStudent.objects.filter(clazz__clazzname__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
+        #通过性别进行查询
         elif key == 'ssex':
             if relation == '>=':
                 stus = TStudent.objects.all()
@@ -313,6 +351,7 @@ def operate_view(request):
             else:
                 stus = TStudent.objects.filter(sex__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
+        #通过年龄进行查询
         else:
             if relation == '>=':
                 stus = TStudent.objects.filter(age__gte=value)
@@ -328,17 +367,28 @@ def operate_view(request):
                 return render(request, 'operate.html', {'stus': stus})
 
 
-def del1_view(request, delid):
-    print delid
+#学生信息删除功能
+def del1_view(request,delid):
     try:
+        #首先查找外键关联，删除学生表和课程表中间表的信息
         stucour = TStuentCourse.objects.filter(student=delid)
-        print stucour
+        # print stucour
         for sc in stucour:
             sc.delete()
     except TStuentCourse.DoesNotExist:
+        #如果数据库中没有，就可以跳过这一操作
         pass
+    try:
+        #同上处理，查找学生表和成绩表中是否有关联
+        gradestu = Grade.objects.filter(studentid=delid)
+        for sc in gradestu:
+            sc.delete()
+    except Grade.DoesNotExist:
+        pass
+    #删除所有外键信息后，就可以删除学生信息了
     stu = TStudent.objects.get(studentid=delid)
     stu.delete()
+    #删除操作成功后重定向本操作页面
     return redirect('/student/operate/')
 
 
@@ -465,3 +515,6 @@ def delCourse_view(request, courseid):
     TCourse.objects.get(courseid=courseid).delete()
 
     return redirect('/student/showCourse/')
+
+
+
