@@ -55,7 +55,8 @@
                 <td>{{ stu.sex }}</td>
                 <td>{{ stu.age }}</td>
                 <td>
-                    <a href="/student/del1/{{ stu.studentid }}">删除</a>
+                    <a href="/student/del1/{{ stu.studentid }}">删除</a>|<a href="/student/update/{{ stu.studentid }}">修改</a>
+
                 </td>
             </tr>
             {% endfor %}

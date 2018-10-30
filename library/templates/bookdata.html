@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
-{#        <li><a href="{% url 'index' %}" target="right" class="icon-home"> 首页</a></li>#}
-{#        <li><a href="#" id="a_leader_txt">网站信息</a></li>#}
         <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
         <li><a href="{% url 'bookdata' %}" id="a_leader_txt">图书展示</a></li>
 
@@ -27,13 +24,13 @@
             </p>
             <br/>
             {% for book in books %}
-            <table  border="1px" cellpadding="9px" cellspacing="0px" width="600px" align="center" style="height: 60px">
-                <tr style="height: 30px;border: 1px" >
-                    <td align="center">书号</td>
-                    <td align="center">书名</td>
-                    <td align="center">出版社</td>
-                    <td align="center">单价</td>
-                    <td align="center">维护</td>
+            <table  border="1px" cellpadding="9px" cellspacing="0px" width="600px" align="center" style="height: 60px;text-align: center">
+                <tr style="height: 30px;border: 1px;" >
+                    <td align="center" style="width: 100px">书号</td>
+                    <td align="center" style="width: 100px">书名</td>
+                    <td align="center" style="width: 200px">出版社</td>
+                    <td align="center" style="width: 100px">单价</td>
+                    <td align="center" style="width: 100px">维护</td>
                 </tr>
                 <tr>
                     <td>{{ book.bookid }}</td>

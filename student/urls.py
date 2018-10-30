@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^register/',views.register_view,name='register'),
     url(r'^operate/',views.operate_view,name='operate'),
     url(r'^del1/(\d+)',views.del1_view,name='del1'),
+    url(r'^update/(\d+)',views.update_view,name='update'),
 
 ]

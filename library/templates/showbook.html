@@ -10,7 +10,6 @@
 
 {% endblock %}
 {% block right %}
-
         <form action="/library/showbook/{{ bi.bookid }}" method="post">
             {% csrf_token %}
             <br/>
@@ -22,7 +21,7 @@
             <table width="600px" align="center" style="height: 400px">
                 <tr>
                     <td style="width:20%;" align="center">书号:</td>
-                    <td style="width:30%;"><input type="text" name="bookid" value="{{ bi.bookid }}"/></td>
+                    <td style="width:30%;"><input type="text" name="bookid" value="{{ bi.bookid }}" readonly="readonly"/></td>
                     <td style="width:20%;" align="center">书名:</td>
                     <td ><input type="text" name="bookname" value="{{ bi.bookname }}"/></td>
                     </tr>
@@ -50,5 +49,4 @@
             </table>
             <p><a href="{% url 'bookdata' %}">返回展示页面</a></p>
         </form>
-
 {% endblock %}
