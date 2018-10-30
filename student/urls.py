@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^grade/',views.grade_view,name='grade'),
     url(r'^gradecx/',views.gradecx_view),
     url(r'^gradelr/',views.gradelr_view),
-    url(r'^delete/(\d+)',views.deletegrade_view),
+    url(r'^delgrade/(\d+)',views.delgrade_view),
     url(r'^course/',views.course_view,name='course'),
     url(r'^addCourse/',views.addCourse_view,name='addCourse'),
     url(r'^showCourse/',views.showCourse_view,name='showCourse'),

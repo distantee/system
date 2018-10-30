@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import *
 
@@ -62,44 +62,66 @@ def gradecx_view(request):
             grades = Grade.objects.filter(studentid__clazz__clazzname=content)
         return render(request, 'gradecx.html', {'grades': grades})
 
+
+
+import jsonpickle
+from django.core.serializers import serialize
+
 def gradelr_view(request):
     if request.method == 'GET':
         stus = TStudent.objects.all()
-        clazz = TClazz.objects.all()
-        for stu in stus:
-            courses =TStuentCourse.objects.filter(student=stu.studentid)
-            # clazzid = TStudent.objects.get(studentid=stu.studentid)
-            # clazz = TClazz.objects.get(clazzid=clazzid.clazz_id)
-            # print clazz
-            cour_list = []
-            for cour in courses:
-                # print cour.course
-                cour_list.append(cour.course)
-
-        return render(request,'gradelr.html',{'stus':stus,'cour_list':cour_list,'clazz':clazz})
+        return render(request,'gradelr.html',{'stus':stus})
     else:
         #获取参数
         studentname = request.POST.get('studentname','')
-        clazzname = request.POST.get('clazzname','')
-        coursename = request.POST.get('coursename','')
-        grade = request.POST.get('grade','')
-        if studentname and clazzname and coursename and grade:
-            student = TStudent.objects.get(studentname=studentname)
+        #print studentname
+
+        student = TStudent.objects.get(studentname=studentname) #student实例
+        clazz =student.clazz   #clazz实例
+        #print clazz
+        clazzname = clazz.clazzname
+        #print clazzname
+        # courseList = TStudent.objects.get(studentname=studentname).tstuentcourse_set.all()
+        # print courseList
+
+        tcList = TStuentCourse.objects.filter(student__studentname=studentname)
+        #print tcList
+        courseList = []
+        for tc in tcList:
+            # tcc = TCourse.objects.get(courseid=tc.course)
+            tcc = TCourse.objects.get(coursename=tc.course.coursename)
+            courname = tcc.coursename
+            #print tcc
+            courseList.append(courname)
+        #print courseList
+
+        #return JsonResponse({'clazz':jsonpickle.dumps(clazz,unpicklable=False),'courseList':serialize('json',courseList)})
+
+        coursename = request.POST.get('coursename', '')
+        #print coursename
+
+        grade = request.POST.get('grade', '')
+        #print grade
+
+        claname = request.POST.get('clazzname','')
+        #print claname
+        if studentname and claname and coursename and grade:
             course = TCourse.objects.get(coursename=coursename)
             try:
                 Grade.objects.get(studentid=student, courseid=course,grade=grade)
-                return HttpResponse('数据库已有该成绩')
+                return redirect( 'gradelr.html')
             except Grade.DoesNotExist:
-                Grade.objects.create(studentid=student, courseid=course, grade=grade)
-                return redirect('/student/gradelr/')
+                 Grade.objects.create(studentid=student, courseid=course, grade=grade)
+                 return redirect('gradelr.html')
 
-        return HttpResponse('添加数据不完整')
+        return JsonResponse({'clazzname':clazzname,'courseList':courseList})
 
-def deletegrade_view(request,gradeid):
+
+def delgrade_view(request,gradeid):
     #print gradeid
     grade = Grade.objects.get(gradeid=gradeid)
     grade.delete()
-    return HttpResponse('删除成功')
+    return redirect('/student/gradecx/')
 
 
 def  register_view(request):
