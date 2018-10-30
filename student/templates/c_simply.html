@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/c_simply/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">简要分类</a></li>
+    <li><a href="/student/c_time/" id="a_leader_event">时间分类</a></li>
+{% endblock title %}
+
+{% block right %}
+{#    <ul style="color: #e32d40">#}
+{#       {% for cpt in c_post %}#}
+{#       <li>#}
+{#       {{ forloop.counter }}#}
+{#       <a href="/student/post/{{ cpt.id }}" style="font-weight: bold;font-size: 20px;color: #cb2027">{{ cpt.title }}</a>&emsp;&emsp;#}
+{#       <a href="/student/post/{{ cpt.id }}">{{ cpt.desc }}</a>#}
+{#       </li>#}
+{#       {% endfor %}#}
+{#    </ul>#}
+      <table align="center" border="1px" cellpadding="9px" cellspacing="0" width="800px" >
+            <tr align="center" bgcolor="#7fffd4" height="22px">
+                <th>发布时间</th>
+                <th>标题</th>
+            </tr>
+            {% for cpt in c_post %}
+            <tr align="center" height="28px" style="line-height: 28px">
+                <td><a href="/student/post/{{ cpt.id }}" target="_blank">{{ cpt.created|date:'Y年m月d日' }}</a></td>
+                <td><a href="/student/post/{{ cpt.id }}" target="_blank">{{ cpt.title }}</a></td>
+            </tr>
+            {% endfor %}
+    </table>
+{% endblock right %}
+
+

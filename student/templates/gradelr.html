@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block right %}
-
     {#    <iframe scrolling="auto" rameborder="0" src="info.html" name="right" width="100%" height="100%">#}
     {##}
     {#    </iframe>#}
@@ -51,7 +50,7 @@
                 <td>
                     <select name="coursename">
                         <option value="-1">-请 选 择 课 程-</option>
-                        {% for cour in cour_list %}
+                        {% for cour in cour_list.0 %}
                             <option value="{{ cour.coursename }}" >{{ cour.coursename }}</option>
                         {% endfor %}
                     </select>

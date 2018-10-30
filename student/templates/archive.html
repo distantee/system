@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/c_simply/" id="a_leader_event">简要分类</a></li>
+    <li><a href="/student/c_time/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">时间分类</a></li>
+{% endblock title %}
+
+{% block right %}
+{# <div class="archives">#}
+{#        {% for cpt in c_post %}#}
+{#            <article class="archive-article archive-type-post">#}
+{#                <div class="archive-article-inner">#}
+{#                    <header class="archive-article-header">#}
+{#                        <a href="#" class="archive-article-date">#}
+{#                            <time>{{ cpt.created }}</time>#}
+{#                        </a>#}
+{##}
+{#                        <h1 itemprop="name">#}
+{#                            <a class="archive-article-title" target="_blank"#}
+{#                               href="/student/post/{{ cpt.id }}">{{ cpt.title }}</a>#}
+{#                        </h1>#}
+{#                    </header>#}
+{#                </div>#}
+{#            </article>#}
+{#        {% endfor %}#}
+{# </div>#}
+
+    <table align="center" border="1px" cellpadding="9px" cellspacing="0" width="800px">
+            <tr align="center" bgcolor="#7fffd4" height="22px">
+                <th>序号</th>
+                <th>发布时间</th>
+                <th>标题</th>
+            </tr>
+            {% for cpt in c_post %}
+            <tr align="center" height="28px" style="line-height: 28px">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ cpt.created|date:'Y年m月d日' }}</td>
+                <td colspan="1"><a href="/student/post/{{ cpt.id }}">{{ cpt.title }}</a></td>
+            </tr>
+            {% endfor %}
+    </table>
+
+
+{% endblock right %}

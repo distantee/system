@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/c_simply/" id="a_leader_event">简要分类</a></li>
+    <li><a href="/student/c_time/" id="a_leader_event" style="color: #1e242a;font-weight: bold;background-color: #66d9ef">时间分类</a></li>
+{% endblock title %}
+{% load staticfiles %}
+{% block right %}
+    <ul>
+        <li>
+            {% for arc in archive %}
+            <a href="/student/archive/{{ arc.0.year }}/{{ arc.0.month }}" ><input type="button" value="{{ arc.0|date:'Y年m月'}}|({{ arc.1 }})" style="font-weight: bold;width: 130px;height:25px;text-align: center;"></a>
+            {% endfor %}
+        </li>
+    </ul>
+{% endblock right %}
