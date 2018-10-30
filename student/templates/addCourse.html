@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >课程信息</a></li>
-    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" >注册信息</a></li>
+    <li><a href="{% url 'addCourse' %}" id="a_leader_txt" style="background-color: skyblue">注册信息</a></li>
     <li><a href="{% url 'showCourse' %}" id="a_leader_txt" >展示信息</a></li>
     <li><a href="{% url 'operCourse' %}" id="a_leader_txt" >操作</a></li>
 {% endblock %}
@@ -45,6 +45,7 @@
                 <tr>
                     <td class="tab1" style="margin-top: 10px">任课教师:</td>
                     <td>
+                        {# 选择多个教师，既可以选择已有教师，也可选择自己添加新教师#}
                         <input type="text" name="rkTname" id="">
                         <select name="rkTname" id="" multiple="multiple" size="3" style="margin: 15px 20px">
                             <option value="-1">-请选择教师-</option>

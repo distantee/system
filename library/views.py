@@ -20,7 +20,7 @@ def addbook_view(request):
         bookid = request.POST.get('bookid','')
         bookname = request.POST.get('bookname','')
         author = request.POST.get('author','')
-        price = request.POST.get('price','')
+        price = request.POST.get('price')
         press = request.POST.get('press','')
         time = request.POST.get('time','')
         introduce = request.POST.get('introduce','')
