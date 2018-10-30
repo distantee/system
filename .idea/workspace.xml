@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="575938b4-27a6-4fe8-9f74-90e267c50ac9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/student/templates/modifCourse.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/student/templates/grade.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/templates/addbook.html" afterPath="$PROJECT_DIR$/library/templates/addbook.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library/templates/bookdata.html" afterPath="$PROJECT_DIR$/library/templates/bookdata.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/addCourse.html" afterPath="$PROJECT_DIR$/student/templates/addCourse.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/archive.html" afterPath="$PROJECT_DIR$/student/templates/archive.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/c_manage.html" afterPath="$PROJECT_DIR$/student/templates/c_manage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/c_news.html" afterPath="$PROJECT_DIR$/student/templates/c_news.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/c_simply.html" afterPath="$PROJECT_DIR$/student/templates/c_simply.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/c_time.html" afterPath="$PROJECT_DIR$/student/templates/c_time.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/gradecx.html" afterPath="$PROJECT_DIR$/student/templates/gradecx.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/gradelr.html" afterPath="$PROJECT_DIR$/student/templates/gradelr.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/index.html" afterPath="$PROJECT_DIR$/student/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/operCourse.html" afterPath="$PROJECT_DIR$/student/templates/operCourse.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/operate.html" afterPath="$PROJECT_DIR$/student/templates/operate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/post.html" afterPath="$PROJECT_DIR$/student/templates/post.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/register.html" afterPath="$PROJECT_DIR$/student/templates/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/show.html" afterPath="$PROJECT_DIR$/student/templates/show.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/templates/showCourse.html" afterPath="$PROJECT_DIR$/student/templates/showCourse.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/urls.py" afterPath="$PROJECT_DIR$/student/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student/views.py" afterPath="$PROJECT_DIR$/student/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/left.html" afterPath="$PROJECT_DIR$/templates/left.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -100,8 +77,8 @@
       <file leaf-file-name="c_news.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/student/templates/c_news.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+            <state relative-caret-position="175">
+              <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -386,7 +363,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540812440798</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="版本5.4添加修改课程功能,添加相关注释">
+      <created>1540900669693</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1540900669693</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -473,7 +457,8 @@
     <MESSAGE value="system00402__学生课程成绩图书合并新增头部时钟显示" />
     <MESSAGE value="system00402__学生课程成绩图书合并新增头部时钟显示完善页面跳转" />
     <MESSAGE value="与本机磨合修复" />
-    <option name="LAST_COMMIT_MESSAGE" value="与本机磨合修复" />
+    <MESSAGE value="版本5.4添加修改课程功能,添加相关注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="版本5.4添加修改课程功能,添加相关注释" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -908,8 +893,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/student/templates/c_news.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+        <state relative-caret-position="175">
+          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
           <folding />
         </state>
       </provider>
