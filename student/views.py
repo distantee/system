@@ -3,9 +3,12 @@ from __future__ import unicode_literals
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import *
+import jsonpickle
+from django.core.serializers import serialize
+
 
 # Create your views here.
 
@@ -32,128 +35,159 @@ def showAll(courses):
     return messages
 
 
-
 def index_view(request):
-    return render(request,'index.html')
+    return render(request, 'index.html')
 
 
 def all_meuns(request):
-    return render(request,'all_menus.html')
+    return render(request, 'all_menus.html')
 
 
-def getpage(num,size):
-    posts=Paginator(Post.objects.order_by('-created'),size)
-    if num<=0:
-        num=1
-    if num>=posts.num_pages:
-        num=posts.num_pages
-    start=num
-    end=start+3
-    if end>posts.num_pages:
-        end=posts.num_pages
-    return posts.page(num),range(start,end)
-def c_manage(request,num='1'):
-    num=int(num)
-    posts,page_range=getpage(num,3)
-    return render(request, 'c_manage.html', {'posts': posts,'page_range':page_range})
+def getpage(num, size):
+    posts = Paginator(Post.objects.order_by('-created'), size)
+    if num <= 0:
+        num = 1
+    if num >= posts.num_pages:
+        num = posts.num_pages
+    start = num
+    end = start + 3
+    if end > posts.num_pages:
+        end = posts.num_pages
+    return posts.page(num), range(start, end)
 
 
+def c_manage(request, num='1'):
+    num = int(num)
+    posts, page_range = getpage(num, 3)
+    return render(request, 'c_manage.html', {'posts': posts, 'page_range': page_range})
 
 
 def c_news(request):
-    return render(request,'c_news.html')
+    return render(request, 'c_news.html')
 
 
 def c_simply(request):
-    c_post=Post.objects.all()
-    return render(request, 'c_simply.html',{'c_post':c_post})
+    c_post = Post.objects.all()
+    return render(request, 'c_simply.html', {'c_post': c_post})
+
 
 def c_time(request):
     return render(request, 'c_time.html')
 
 
-def post_view(request,postId):
-    post=Post.objects.get(id=postId)
-    return render(request,'post.html',{'post':post})
+def post_view(request, postId):
+    post = Post.objects.get(id=postId)
+    return render(request, 'post.html', {'post': post})
 
 
-def archive_view(request,year,month):
+def archive_view(request, year, month):
     # print year,month
     c_post = Post.objects.filter(created__year=year, created__month=month)
     # print c_post
-    return render(request,'archive.html',{'c_post':c_post})
+    return render(request, 'archive.html', {'c_post': c_post})
 
 
-def grade_view(request):
-    grades = Grade.objects.all()
-    #print grades
-    return render(request,'grade.html',{'grades':grades})
+# 成绩分页
+def Pagecj(num, size):
+    num = int(num)
+    paginator = Paginator(Grade.objects.all().order_by('grade'), size)
+
+    if num < 1:
+        num = 1
+    if num > paginator.num_pages:
+        num = paginator.num_pages
+
+    start = num
+    end = start + 3
+
+    if end > paginator.num_pages:
+        end = paginator.num_pages + 1
+
+    return paginator.page(num), range(start, end), paginator.num_pages
 
 
-def gradecx_view(request):
+# 成绩查询
+def gradecx_view(request, num='1'):
     if request.method == 'GET':
-        grades = Grade.objects.all()
-        return render(request,'gradecx.html',{'grades':grades})
+        size = 5
+        gradelist, page_range, total_pages = Pagecj(num, size)
+        return render(request, 'gradecx.html',
+                      {'gradelist': gradelist, 'page_range': page_range, 'total_pages': total_pages})
+
     else:
-        #接受参数
-        tiaojian = request.POST.get('tiaojian','')
-        #判断
+        # 接受参数
+        tiaojian = request.POST.get('tiaojian', '')
+        # 判断
         if tiaojian == '学生姓名':
-            content = request.POST.get('content','')
-            grades = Grade.objects.filter(studentid__studentname=content)
+            content = request.POST.get('content', '')
+            gradelist = Grade.objects.filter(studentid__studentname=content)
         elif tiaojian == '课程名称':
             content = request.POST.get('content', '')
-            grades = Grade.objects.filter(courseid__coursename=content)
+            gradelist = Grade.objects.filter(courseid__coursename=content)
         else:
             content = request.POST.get('content', '')
-            grades = Grade.objects.filter(studentid__clazz__clazzname=content)
-        return render(request, 'gradecx.html', {'grades': grades})
+            gradelist = Grade.objects.filter(studentid__clazz__clazzname=content)
+        return render(request, 'gradecx.html', {'gradelist': gradelist})
 
+
+# 成绩录入
 def gradelr_view(request):
     if request.method == 'GET':
         stus = TStudent.objects.all()
-        clazz = TClazz.objects.all()
-        cours_list = []
-        for stu in stus:
-            courses =TStuentCourse.objects.filter(student=stu.studentid)
-            # print courses
-            cour_list = []
-            for cour in courses:
-                cour_list.append(cour.course)
-            print cour_list
-            cours_list.append(cour_list)
-
-        return render(request,'gradelr.html',{'stus':stus,'cour_list':cours_list,'clazz':clazz})
+        return render(request, 'gradelr.html', {'stus': stus})
     else:
-        #获取参数
-        studentname = request.POST.get('studentname','')
-        clazzname = request.POST.get('clazzname','')
-        coursename = request.POST.get('coursename','')
-        grade = request.POST.get('grade','')
-        if studentname and clazzname and coursename and grade:
-            student = TStudent.objects.get(studentname=studentname)
+        # 获取参数
+        studentname = request.POST.get('studentname', '')
+
+        #根据选中的学生名获取到班级
+        student = TStudent.objects.get(studentname=studentname)  # student实例
+        clazz = student.clazz  # clazz实例
+        clazzname = clazz.clazzname
+
+        # courseList = TStudent.objects.get(studentname=studentname).tstuentcourse_set.all()
+
+        # 根据选中的学生名获取到课程
+        tcList = TStuentCourse.objects.filter(student__studentname=studentname)
+        # print tcList
+        courseList = []
+        for tc in tcList:
+            tcc = TCourse.objects.get(coursename=tc.course.coursename)
+            courname = tcc.coursename
+            courseList.append(courname)
+        # return JsonResponse({'clazz':jsonpickle.dumps(clazz,unpicklable=False),'courseList':serialize('json',courseList)})
+
+        #获取更新后的参数
+        coursename = request.POST.get('coursename', '')
+        grade = request.POST.get('grade', '')
+        claname = request.POST.get('clazzname', '')
+
+        #判断四个属性是否为空
+        if studentname and claname and coursename and grade:
             course = TCourse.objects.get(coursename=coursename)
             try:
-                Grade.objects.get(studentid=student, courseid=course,grade=grade)
-                return HttpResponse('数据库已有该成绩')
+                Grade.objects.get(studentid=student, courseid=course, grade=grade)
+                return redirect('gradelr.html')
             except Grade.DoesNotExist:
                 Grade.objects.create(studentid=student, courseid=course, grade=grade)
-                return redirect('/student/gradelr/')
+                return redirect('gradelr.html')
 
-        return HttpResponse('添加数据不完整')
+        #ajax传参
+        return JsonResponse({'clazzname': clazzname, 'courseList': courseList})
 
-def deletegrade_view(request,gradeid):
-    #print gradeid
+
+# 删除成绩
+def delgrade_view(request, gradeid):
     grade = Grade.objects.get(gradeid=gradeid)
     grade.delete()
-    return HttpResponse('删除成功')
+    return redirect('/student/gradecx/')
+
 
 #学生信息的注册功能
 def  register_view(request):
     if request.method == 'GET':
         clazzs = TClazz.objects.all()
         course = TCourse.objects.all()
-        return render(request,'register.html',{'clazzs':clazzs,'course':course})
+        return render(request, 'register.html', {'clazzs': clazzs, 'course': course})
     else:
         stuid = request.POST.get('stuid')
         sname = request.POST.get('name')
@@ -183,13 +217,14 @@ def  register_view(request):
             stu = TStudent.objects.get(studentid=stuid)
         except TStudent.DoesNotExist:
             stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
-        #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
-        TStuentCourse.objects.filter(student=stu).delete()
+            #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
+            TStuentCourse.objects.filter(student=stu).delete()
+            #stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
         for c in cns:
             try:
                 TStuentCourse.objects.get(student=stu, course=c)
             except TStuentCourse.DoesNotExist:
-                TStuentCourse.objects.create(student=stu,course=c)
+                TStuentCourse.objects.create(student=stu, course=c)
 
         return redirect('/student/show/1')
 
@@ -213,34 +248,39 @@ def update_view(request,num = '1'):
 def get_page(num):
     num = int(num)
     per = 1
+    pages = Paginator(TStudent.objects.order_by('-studentid'), per)
     pages = Paginator(TStudent.objects.order_by('-studentid'),per)
     #判断当前页码是否越界
     if num <= 0:
         num = 1
     if num > pages.num_pages:
         num = pages.num_pages
-    #生成页码数
+    # 生成页码数
     start = num
     end = num + 3
-    #判断end是否越界
+    # 判断end是否越界
     if end > pages.num_pages:
-        end = pages.num_pages+1
-    return pages.page(num),range(start,end)
+        end = pages.num_pages + 1
+    return pages.page(num), range(start, end)
+
+
 #学生信息展示页面。为主页显示
 def show_view(request,num = '1'):
-        # stus = TStudent.objects.all()
-        #实现分页功能
-        stus,page_range = get_page(num)
-        cour_list = []
-        for sol in stus.object_list:
-            course = TStuentCourse.objects.filter(student=sol.studentid)
-            # print course
+    # stus = TStudent.objects.all()
+    #实现分页功能
+    stus,page_range = get_page(num)
+    cour_list = []
+    for sol in stus.object_list:
+        course = TStuentCourse.objects.filter(student=sol.studentid)
+        # print course
 
-            for cour in course:
-                c = cour.course_id
-                ccc = TCourse.objects.get(courseid=c)
-                cour_list.append(ccc)
-        return render(request,'show.html',{'stus':stus,'page_range':page_range,'cour_list':cour_list})
+        for cour in course:
+            c = cour.course_id
+            ccc = TCourse.objects.get(courseid=c)
+            cour_list.append(ccc)
+    return render(request, 'show.html', {'stus': stus, 'page_range': page_range, 'cour_list': cour_list})
+
+
 #学生信息操作功能，包括修改和删除
 def operate_view(request):
     #以get进入操作页面时，通过if判断传参跳转到操作对应的html
@@ -325,6 +365,8 @@ def operate_view(request):
             else:
                 stus = TStudent.objects.filter(age__contains=value)
                 return render(request, 'operate.html', {'stus': stus})
+
+
 #学生信息删除功能
 def del1_view(request,delid):
     try:
@@ -349,36 +391,38 @@ def del1_view(request,delid):
     #删除操作成功后重定向本操作页面
     return redirect('/student/operate/')
 
+
 def course_view(request):
-    return render(request,'course.html')
+    return render(request, 'course.html')
+
 
 def addCourse_view(request):
-    if request.method=='GET':
+    if request.method == 'GET':
         teachers = TTeacher.objects.all()
-        return render(request,'addCourse.html',{'teachers':teachers})
+        return render(request, 'addCourse.html', {'teachers': teachers})
     else:
-        name=request.POST.get('coursename','')
-        reTnames=request.POST.getlist('rkTname','')
+        name = request.POST.get('coursename', '')
+        reTnames = request.POST.getlist('rkTname', '')
         try:
-            course=TCourse.objects.get(coursename=name)
+            course = TCourse.objects.get(coursename=name)
         except TCourse.DoesNotExist:
-            course=TCourse.objects.create(coursename=name)
+            course = TCourse.objects.create(coursename=name)
 
-        tnames=[]
+        tnames = []
         if reTnames[0]:
             for reTname in reTnames:
                 try:
-                    tname=TTeacher.objects.get(teachername=reTname)
+                    tname = TTeacher.objects.get(teachername=reTname)
                 except TTeacher.DoesNotExist:
-                    tname=TTeacher.objects.create(teachername=reTname)
+                    tname = TTeacher.objects.create(teachername=reTname)
                 tnames.append(tname)
 
             for tname in tnames:
                 # print tname,course
                 try:
-                    TTeacherCourse.objects.get(teacherid=tname.teacherid,courseid=course.courseid)
+                    TTeacherCourse.objects.get(teacherid=tname.teacherid, courseid=course.courseid)
                 except TTeacherCourse.DoesNotExist:
-                    TTeacherCourse.objects.create(teacherid=tname,courseid=course)
+                    TTeacherCourse.objects.create(teacherid=tname, courseid=course)
         else:
             for reTname in reTnames[1:]:
                 try:
@@ -395,13 +439,14 @@ def addCourse_view(request):
                     TTeacherCourse.objects.create(teacherid=tname, courseid=course)
         return redirect('/student/showCourse/')
 
+
 def showCourse_view(request):
     courses = TCourse.objects.all()
-    messages=showAll(courses)
+    messages = showAll(courses)
 
     num = request.GET.get('num', 1)
     num = int(num)
-    paginator = Paginator(messages,3)
+    paginator = Paginator(messages, 3)
     try:
         t_pre_page = paginator.page(num)  # 获取当前页码的记录
     except PageNotAnInteger:  # 如果用户输入的页码不是整数时,显示第1页的内容
@@ -409,30 +454,31 @@ def showCourse_view(request):
     except EmptyPage:  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
         t_pre_page = paginator.page(paginator.num_pages)
 
-    return render(request,'showCourse.html',{'paginator':paginator,'t_pre_page':t_pre_page})
+    return render(request, 'showCourse.html', {'paginator': paginator, 't_pre_page': t_pre_page})
+
 
 def operCourse_view(request):
-    if request.method=='GET':
+    if request.method == 'GET':
         courses = TCourse.objects.all()
         messages = showAll(courses)
-        return render(request, 'operCourse.html',{'messages':messages})
+        return render(request, 'operCourse.html', {'messages': messages})
     else:
-        key=request.POST.get('key','')
-        constraint=request.POST.get('constraint','')
-        val=request.POST.get('val','')
+        key = request.POST.get('key', '')
+        constraint = request.POST.get('constraint', '')
+        val = request.POST.get('val', '')
         # print key,constraint,val
-        if key=='cid':
-            if constraint=='gt':
-                courses=TCourse.objects.filter(courseid__gt=val)
-                messages=showAll(courses)
-            elif constraint=='lt':
+        if key == 'cid':
+            if constraint == 'gt':
+                courses = TCourse.objects.filter(courseid__gt=val)
+                messages = showAll(courses)
+            elif constraint == 'lt':
                 courses = TCourse.objects.filter(courseid__lt=val)
                 messages = showAll(courses)
             else:
                 courses = TCourse.objects.filter(courseid=val)
                 messages = showAll(courses)
-        elif key=='cname':
-            course=TCourse.objects.get(coursename=val)
+        elif key == 'cname':
+            course = TCourse.objects.get(coursename=val)
             messages = []
             set1 = TStuentCourse.objects.values('course_id').annotate(c=Count('*'))
             allteachers = TTeacherCourse.objects.filter(courseid=course.courseid)
@@ -451,16 +497,17 @@ def operCourse_view(request):
                 mes = [course, teachers, 0]
                 messages.append(mes)
         else:
-            all=TTeacherCourse.objects.filter(teacherid__teachername__contains=val)
+            all = TTeacherCourse.objects.filter(teacherid__teachername__contains=val)
             # print all
-            courses=[]
+            courses = []
             for single in all:
-                course=TCourse.objects.get(courseid=single.courseid_id)
+                course = TCourse.objects.get(courseid=single.courseid_id)
                 courses.append(course)
             messages = showAll(courses)
         return render(request, 'operCourse.html', {'messages': messages})
 
-def delCourse_view(request,courseid):
+
+def delCourse_view(request, courseid):
     # print courseid
     TTeacherCourse.objects.filter(courseid=courseid).delete()
     Grade.objects.filter(courseid=courseid).delete()
@@ -468,5 +515,6 @@ def delCourse_view(request,courseid):
     TCourse.objects.get(courseid=courseid).delete()
 
     return redirect('/student/showCourse/')
+
 
 

@@ -182,7 +182,7 @@ class TBook(models.Model):
     introduce = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
-        managed = False
+
         db_table = 't_book'
 
 
@@ -210,6 +210,7 @@ class TStudent(models.Model):
     clazz = models.ForeignKey(TClazz, models.DO_NOTHING, db_column='clazz', blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
+
 
     class Meta:
         managed = False
