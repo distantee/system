@@ -155,14 +155,13 @@ def  register_view(request):
         course = TCourse.objects.all()
         return render(request,'register.html',{'clazzs':clazzs,'course':course})
     else:
+        stuid = request.POST.get('stuid')
         sname = request.POST.get('name')
         clazz = request.POST.get('clazz')
         gender = request.POST.get('gender')
         age = request.POST.get('age')
         age = int(age)
         course = request.POST.getlist('course')
-        # print course
-        # print sname,clazz,gender,age
         try:
             cls = TClazz.objects.get(clazzname=clazz)
         except TClazz.DoesNotExist:
@@ -174,10 +173,13 @@ def  register_view(request):
             except TCourse.DoesNotExist:
                 cour = TCourse.objects.create(coursename=cn)
             cns.append(cour)
+            # print cns
         try:
-            stu = TStudent.objects.get(studentname=sname, clazz=cls, sex=gender, age=age)
+            TStudent.objects.filter(studentid=stuid).update(studentname=sname, clazz=cls, sex=gender, age=age)
+            stu = TStudent.objects.get(studentid=stuid)
         except TStudent.DoesNotExist:
             stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
+        TStuentCourse.objects.filter(student=stu).delete()
         for c in cns:
             try:
                 TStuentCourse.objects.get(student=stu, course=c)
@@ -186,6 +188,18 @@ def  register_view(request):
 
         return redirect('/student/show/1')
 
+
+def update_view(request,num = '1'):
+    if request.method == 'GET':
+        num = int(num)
+        msg = TStudent.objects.get(studentid=num)
+        clazz = TClazz.objects.all()
+        allcourse = TCourse.objects.all()
+        course = TCourse.objects.filter(tstuentcourse__student_id__exact=msg.studentid)
+        # print course
+        return render(request,'update.html',{'msg':msg,'clazz':clazz,'course':course,'allcourse':allcourse})
+    else:
+        pass
 
 def get_page(num):
     num = int(num)
@@ -225,7 +239,7 @@ def operate_view(request):
         key = request.POST.get('key')
         relation = request.POST.get('relation')
         value = request.POST.get('value')
-        print key, relation, value
+        # print key, relation, value
         if key == 'sid':
             if relation == '>=':
                 stus = TStudent.objects.filter(studentid__gte=value)
@@ -293,13 +307,18 @@ def operate_view(request):
                 return render(request, 'operate.html', {'stus': stus})
 
 def del1_view(request,delid):
-    print delid
     try:
         stucour = TStuentCourse.objects.filter(student=delid)
-        print stucour
+        # print stucour
         for sc in stucour:
             sc.delete()
     except TStuentCourse.DoesNotExist:
+        pass
+    try:
+        gradestu = Grade.objects.filter(studentid=delid)
+        for sc in gradestu:
+            sc.delete()
+    except Grade.DoesNotExist:
         pass
     stu = TStudent.objects.get(studentid=delid)
     stu.delete()
@@ -424,3 +443,5 @@ def delCourse_view(request,courseid):
     TCourse.objects.get(courseid=courseid).delete()
 
     return redirect('/student/showCourse/')
+
+

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}
+    <li><a href="/student/show/1" id="a_leader_txt">基本信息</a></li>
+    <li><a href="{% url 'register' %}" id="a_leader_txt">注册信息</a></li>
+    <li><a href="{% url 'operate' %}" id="a_leader_txt">操作</a></li>
+{% endblock title %}
+{% block right %}
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <table border="2px" style="border-radius: 1px;text-align: center;font-size: 20px;font-family: 仿宋;"
+               align="center"
+               width="45%" cellspacing="0px">
+            <tr>
+                <th colspan="2">学生信息修改</th>
+            </tr>
+            <tr>
+                <td width="25%">学号</td>
+                <td width="75%"><input type="text" style="text-align: center" autofocus="autofocus" name="stuid"
+                                       value="{{ msg.studentid }}"/></td>
+            </tr>
+            <tr>
+                <td width="25%">姓名</td>
+                <td width="75%"><input type="text" style="text-align: center" autofocus="autofocus" name="name"
+                                       value="{{ msg.studentname }}"/></td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td>
+                    <input type="text" name="clazz" list="clazz" style="text-align: center"
+                           value="{{ msg.clazz.clazzname }}"/>
+                    <datalist id="clazz">
+                        <option value="-1">-请 选 择 班 级-</option>
+                        {% for clazz in clazzs %}
+                            <option value="{{ clazz.clazzname }}">{{ clazz.clazzname }}</option>
+                        {% endfor %}
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <input type="text" list="gender" name="gender" style="text-align: center"
+                           value="{{ msg.sex }}"/>
+                    <datalist id="gender">
+                        <option value="-1">-请 选 择 性 别-</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>年龄</td>
+                <td width="75%"><input  type="number" name="age" min="3" value="{{ msg.age }}" max="60"
+                                       style="width: 180px;text-align: center"/></td>
+
+            </tr>
+            <tr>
+                <th width="25%">课程:</th>
+                <td width="75%">
+                    {% for ac in allcourse %}
+                                <input type="checkbox" name="course" value="{{ ac.coursename }}" {% if ac in course %}checked="checked"{% endif %} >{{ ac.coursename }}
+                    {% endfor %}
+                </td>
+            <tr>
+                <td>操作</td>
+                <td width="25%">
+                    <input type="submit" value="确认修改"/>
+                    <a href="/student/show/1"><input type="button" value="撤销修改"/></a>
+                </td>
+            </tr>
+        </table>
+
+
+    </form>
+
+
+{% endblock right %}
