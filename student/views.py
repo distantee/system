@@ -434,48 +434,51 @@ def addCourse_view(request):
         name=request.POST.get('coursename','')
         #得到的教师列表第一项是输入框的内容，后面的是复选框中的内容
         reTnames=request.POST.getlist('rkTname','')
-        #添加课程到课程表
-        try:
-            course=TCourse.objects.get(coursename=name)
-        except TCourse.DoesNotExist:
-            course=TCourse.objects.create(coursename=name)
+        if name and (reTnames[0] or reTnames[1:]):
+            #添加课程到课程表
+            try:
+                course=TCourse.objects.get(coursename=name)
+            except TCourse.DoesNotExist:
+                course=TCourse.objects.create(coursename=name)
 
-        #存储所选的所有教师
-        tnames=[]
-        #如果有输入新教师，则遍历所有
-        if reTnames[0]:
-            for reTname in reTnames:
-                #存储教师信息到教师表
-                try:
-                    tname = TTeacher.objects.get(teachername=reTname)
-                except TTeacher.DoesNotExist:
-                    tname = TTeacher.objects.create(teachername=reTname)
-                tnames.append(tname)
+            #存储所选的所有教师
+            tnames=[]
+            #如果有输入新教师，则遍历所有
+            if reTnames[0]:
+                for reTname in reTnames:
+                    #存储教师信息到教师表
+                    try:
+                        tname = TTeacher.objects.get(teachername=reTname)
+                    except TTeacher.DoesNotExist:
+                        tname = TTeacher.objects.create(teachername=reTname)
+                    tnames.append(tname)
 
-            #存储课程信息和对应的教师信息到教师任课表中
-            for tname in tnames:
-                # print tname,course
-                try:
-                    TTeacherCourse.objects.get(teacherid=tname.teacherid, courseid=course.courseid)
-                except TTeacherCourse.DoesNotExist:
-                    TTeacherCourse.objects.create(teacherid=tname,courseid=course)
-        # 如果没有输入新教师，则从教师列表第二项开始遍历所有
+                #存储课程信息和对应的教师信息到教师任课表中
+                for tname in tnames:
+                    # print tname,course
+                    try:
+                        TTeacherCourse.objects.get(teacherid=tname.teacherid, courseid=course.courseid)
+                    except TTeacherCourse.DoesNotExist:
+                        TTeacherCourse.objects.create(teacherid=tname,courseid=course)
+            # 如果没有输入新教师，则从教师列表第二项开始遍历所有
+            else:
+                for reTname in reTnames[1:]:
+                    try:
+                        tname = TTeacher.objects.get(teachername=reTname)
+                    except TTeacher.DoesNotExist:
+                        tname = TTeacher.objects.create(teachername=reTname)
+                    tnames.append(tname)
+
+                for tname in tnames:
+                    # print tname,course
+                    try:
+                        TTeacherCourse.objects.get(teacherid=tname.teacherid, courseid=course.courseid)
+                    except TTeacherCourse.DoesNotExist:
+                        TTeacherCourse.objects.create(teacherid=tname, courseid=course)
+                #添加成功，跳转到课程展示页面
+            return redirect('/student/showCourse/')
         else:
-            for reTname in reTnames[1:]:
-                try:
-                    tname = TTeacher.objects.get(teachername=reTname)
-                except TTeacher.DoesNotExist:
-                    tname = TTeacher.objects.create(teachername=reTname)
-                tnames.append(tname)
-
-            for tname in tnames:
-                # print tname,course
-                try:
-                    TTeacherCourse.objects.get(teacherid=tname.teacherid, courseid=course.courseid)
-                except TTeacherCourse.DoesNotExist:
-                    TTeacherCourse.objects.create(teacherid=tname, courseid=course)
-            #添加成功，跳转到课程展示页面
-        return redirect('/student/showCourse/')
+            return redirect('/student/addCourse/')
 #展示课程功能
 def showCourse_view(request):
     #获取所有课程
