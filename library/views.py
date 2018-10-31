@@ -70,29 +70,54 @@ def bookdata_view(request,num='1'):
         test = request.POST.get('test', '')
         # 判断查询的是什么
         if key == 'bid':
+            if test:
             # 通过图书id获取具体图书信息
-            books = TBook.objects.filter(bookid=test)
-            return render(request,'bookdata.html',{'books':books})
+                books = TBook.objects.filter(bookid=test)
+                return render(request,'bookdata.html',{'books':books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
         elif key == 'bname':
-            # 通过图书name获取与之对应的图书信息
-            books = TBook.objects.filter(bookname = test)
-            return render(request,'bookdata.html',{'books':books})
+            if test:
+                # 通过图书name获取与之对应的图书信息
+                books = TBook.objects.filter(bookname = test)
+                return render(request,'bookdata.html',{'books':books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
         elif key == 'press':
-            # 通过图书press获取与之对应的图书信息
-            books = TBook.objects.filter(press = test)
-            return render(request,'bookdata.html',{'books':books})
+            if test:
+                # 通过图书press获取与之对应的图书信息
+                books = TBook.objects.filter(press = test)
+                return render(request,'bookdata.html',{'books':books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
         elif key == 'gt_price':
             #通过图书price获取与之对应的图书信息
-            books = TBook.objects.filter(price__gt=test)
-            return render(request, 'bookdata.html', {'books': books})
+            if test:
+                books = TBook.objects.filter(price__gt=test)
+                return render(request, 'bookdata.html', {'books': books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
         elif key == 'eq_price':
             #通过图书price获取与之对应的图书信息
-            books = TBook.objects.filter(price=test)
-            return render(request, 'bookdata.html', {'books': books})
+            if test:
+                books = TBook.objects.filter(price=test)
+                return render(request, 'bookdata.html', {'books': books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
         elif key == 'lt_price':
             #通过图书price获取与之对应的图书信息
-            books = TBook.objects.filter(price__lt=test)
-            return render(request, 'bookdata.html', {'books': books})
+            if test:
+                books = TBook.objects.filter(price__lt=test)
+                return render(request, 'bookdata.html', {'books': books})
+            else:
+                books = TBook.objects.all()
+                return render(request, 'bookdata.html', {'books': books})
+
 
 
 # 进入图书详情页面

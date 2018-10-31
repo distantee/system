@@ -1050,9 +1050,9 @@ a:focus,a:hover{color:#0ae;} /*链接-悬浮颜色*/
 {color:#f60;}/*文本-点缀色*/
 /*--------自定义背景色--------*/
 .bg-main,.border-main .button.active,.pointer.border-main .active,.nav-pills.border-main .active a,.nav-main.border-main .nav-head,.pagination.border-main .active
-{background-color:#0ae;} /*背景-主色*/
+/*{background-color:#0ae;} !*背景-主色*!*/
 .bg-sub,.border-sub .button.active,.pointer.border-sub .active,.nav-pills.border-sub .active a,.nav-main.border-sub .nav-head,.pagination.border-sub .active
-{background-color:#2c7;} /*背景-辅色*/
+/*{background-color:#2c7;} !*背景-辅色*!*/
 .bg-back,.border-back .button.active,.pointer.border-back .active,.nav-pills.border-back .active a,.nav-main.border-back .nav-head,.pagination.border-back .active
 {background-color:#f2f9fd;} /*背景-背景色*/
 .bg-mix,.border-mix .button.active,.pointer.border-mix .active,.nav-pills.border-mix .active a,.pagination.border-mix .active
