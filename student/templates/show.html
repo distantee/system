@@ -6,7 +6,7 @@
 {% endblock title %}
 {% block right %}
     {% for stu in stus.object_list %}
-        <span style="margin: 5px 200px auto;font-weight: bold;font-family: 宋体;">学生姓名：<span style="text-decoration: underline">{{ stu.studentname }}</span></span>
+        <span style="margin: 5px 200px auto;font-weight: bold;font-family: 宋体;">学生姓名：<span style="text-decoration: underline"><a href="/student/update/{{ stu.studentid }}">{{ stu.studentname }}</a></span></span>
         <table border="2px"
                style="border-radius: 1px;text-align: center;font-size: 20px;font-family: 仿宋;"
                align="center"
