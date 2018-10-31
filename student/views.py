@@ -250,7 +250,7 @@ def  register_view(request):
         except TStudent.DoesNotExist:
             stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
             #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
-            TStuentCourse.objects.filter(student=stu).delete()
+        TStuentCourse.objects.filter(student=stu).delete()
             #stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
         for c in cns:
             try:
