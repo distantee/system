@@ -1,31 +1,38 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block title %}
-        <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
-        <li><a href="{% url 'bookdata' %}" id="a_leader_txt" style="background-color: skyblue">图书展示</a></li>
+    <li><a href="{% url 'addbook' %}" id="a_leader_txt">图书登记</a></li>
+    <li><a href="{% url 'bookdata' %}" id="a_leader_txt" style="background-color: skyblue">图书展示</a></li>
 
 
 {% endblock %}
 {% block right %}
+    <link rel="stylesheet" href="{% static 'librarycss.css' %}">
+    {#        form表单获取查询条件#}
+    <form action="{% url 'bookdata' %}" method="post">
+        {% csrf_token %}
+        <br/>
+        <br/>
+        {#            添加查询#}
+        <p align="center">请输入查询条件:
+            <select name="key" id="">
+                <option value="bid">书号</option>
+                <option value="bname">书名</option>
+                <option value="press">出版社</option>
+                <option value="gt_price">大于价格</option>
+                <option value="eq_price">等于价格</option>
+                <option value="lt_price">小于价格</option>
 
-
-        <form action="{% url 'bookdata' %}" method="post">
-            {% csrf_token %}
-            <br/>
-            <br/>
-
-            <p align="center">请输入查询条件:
-                <select name="key" id="">
-                    <option value="bid">书号</option>
-                    <option value="bname">书名</option>
-                </select>
-                &emsp;<input type="text" name="test"/>
-                <input type="submit" value="查询">
-            </p>
-            <br/>
-            {% for book in books %}
-            <table  border="1px" cellpadding="9px" cellspacing="0px" width="600px" align="center" style="height: 60px;text-align: center">
-                <tr style="height: 30px;border: 1px;" >
+            </select>
+            &emsp;<input type="text" name="test"/>
+            <input type="submit" value="查询">
+        </p>
+        <br/>
+        {#          对所有图书进行遍历，并展示出来#}
+        {% for book in books %}
+            <table border="1px" cellpadding="9px" cellspacing="0px" width="600px" align="center"
+                   style="height: 60px;text-align: center">
+                <tr style="height: 30px;border: 1px;">
                     <td align="center" style="width: 100px">书号</td>
                     <td align="center" style="width: 100px">书名</td>
                     <td align="center" style="width: 200px">出版社</td>
@@ -38,6 +45,7 @@
                     <td>{{ book.press }}</td>
                     <td>{{ book.price }}</td>
                     <td align="center">
+                        {#运用a标签跳转详情页面，添加删除功能#}
                         <a href="/library/showbook/{{ book.bookid }}">详情</a>
                         |
                         <a href="{% url 'delbook' %}/?id={{ book.bookid }}">删除</a>
@@ -45,26 +53,31 @@
                 </tr>
             </table>
             <br/>
+        {% endfor %}
+        <br/>
+
+        <p align="center">
+            {#                如果有上一页，可跳转到上一页#}
+            {% if books.has_previous %}
+                <a href="/library/page/{{ books.previous_page_number }}">上一页</a>
+            {% endif %}
+            {#                展示中间显示页数#}
+            {% for pr in page_range %}
+                {#                    对当前页进行标注#}
+                {% if books.number == pr %}
+                    <a style="color: royalblue ;background-color: #cccccc" href="/library/page/{{ pr }}">{{ pr }}</a>
+                {% else %}
+                    <a href="/library/page/{{ pr }}">{{ pr }}</a>
+                {% endif %}
             {% endfor %}
-            <br/>
-            <p align="center">
-                {% if books.has_previous %}
-                    <a href="/library/page/{{ books.previous_page_number }}">上一页</a>
-                {% endif %}
-
-                {% for pr in page_range %}
-                    {% if books.number == pr %}
-                        <a  style="color: royalblue ;background-color: #cccccc" href="/library/page/{{ pr }}">{{ pr }}</a>
-                    {% else %}
-                        <a href="/library/page/{{ pr }}">{{ pr }}</a>
-                    {% endif %}
-                {% endfor %}
-
-                {% if books.has_next %}
-                    <a href="/library/page/{{ books.next_page_number }}">下一页</a>
-                {% endif %}
-            </p>
-            <p align="right"><a href="{% url 'addbook' %}">添加数据</a></p>
-        </form>
+            {#                判断如果有下一页，可跳转下一页#}
+            {% if books.has_next %}
+                <a href="/library/page/{{ books.next_page_number }}">下一页</a>
+            {% endif %}
+        </p>
+        {#            运用a标签可以添加数据#}
+{#        <p class="toAdd"><a href="{% url 'addbook' %}">添加数据</a></p>#}
+{#        <p class="toShow"><a href="{% url 'bookdata' %}">返回展示页面</a></p>#}
+    </form>
 
 {% endblock %}

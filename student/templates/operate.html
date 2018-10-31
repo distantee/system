@@ -6,9 +6,33 @@
     <li><a href="{% url 'operate' %}" id="a_leader_txt" style="background-color: skyblue">操作</a></li>
 {% endblock title %}
 {% block right %}
-    <form action="{% url 'operate' %}" method="post">
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script type="text/css">
+            span{
+                font-size:15px;
+                font-weight:bold;
+                font-family: 宋体;
+            }
+        </script>
+    </head>
+
+
+
+
+
+  <body>
+
+    <form action="{% url 'operate' %}" method="post" style="margin-top: 20px">
     {% csrf_token %}
-        <span style="margin:10px 20px 20px 300px">查询字段
+        <span style="margin:20px 20px 20px 300px;font-family: 新宋体" >查询字段
             <select name="key">
                 <option value="-1">-请 选 择 字 段-</option>
                                 <option value="sid" selected="selected">学号</option>
@@ -65,5 +89,6 @@
 
 
     </form>
-
+ </body>
+    </html>
 {% endblock right %}

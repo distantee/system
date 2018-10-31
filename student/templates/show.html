@@ -1,38 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}
-{#    <li><a href="{% url 'index' %}" target="right" class="icon-home"> 首页</a></li>#}
     <li><a href="/student/show/{{ stus.number }}" id="a_leader_txt" style="background-color: skyblue">基本信息</a></li>
     <li><a href="{% url 'register' %}" id="a_leader_txt">注册信息</a></li>
     <li><a href="{% url 'operate' %}" id="a_leader_txt">操作</a></li>
 {% endblock title %}
 {% block right %}
     {% for stu in stus.object_list %}
-        <span style="margin: 5px 200px auto;font-weight: bold">学生姓名：{{ stu.studentname }}</span>
+        <span style="margin: 5px 200px auto;font-weight: bold;font-family: 宋体;">学生姓名：<span style="text-decoration: underline">{{ stu.studentname }}</span></span>
         <table border="2px"
                style="border-radius: 1px;text-align: center;font-size: 20px;font-family: 仿宋;"
                align="center"
                width="45%" cellspacing="0px">
             <tr>
-                <th colspan="2">学生信息展示</th>
+                <th colspan="2" style="font-weight: bold;" height="27px">学生信息展示</th>
             </tr>
             <tr>
-                <td width="25%">学号</td>
+                <td width="25%" height="28px">学号</td>
                 <td width="75%">{{ stu.studentid }}</td>
             </tr>
             <tr>
-                <td>班级</td>
+                <td height="28px">班级</td>
                 <td>{{ stu.clazz.clazzname }}</td>
             </tr>
             <tr>
-                <td>性别</td>
+                <td height="28px">性别</td>
                 <td>{{ stu.sex }}</td>
             </tr>
             <tr>
-                <td>年龄</td>
+                <td height="28px">年龄</td>
                 <td>{{ stu.age }}</td>
             </tr>
             <tr>
-                <td>课程</td>
+                <td height="28px">课程</td>
                 <td>
                 {% for cour in cour_list %}
 

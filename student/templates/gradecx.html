@@ -8,7 +8,7 @@
 {% block right %}
     <form action="/student/gradecx/" method="post">
         {% csrf_token %}
-        <p align="center">请输入查询条件：
+        <p align="center" style="margin-top: 20px">请输入查询条件：
             <select name="tiaojian">
                 <option>学生姓名</option>
                 <option>课程名称</option>
@@ -17,8 +17,8 @@
             <input type="text" name="content">
             <input type="submit" value="查询">
         </p>
-        <table border="1px" cellpadding="9" cellspacing="0" width="800px" height="30px" align="center"
-               style="font-size: 20px">
+        <table border="1px" cellpadding="9" cellspacing="0" width="50%" height="30px" align="center"
+               style="font-size: 20px;font-family: 仿宋">
             <caption style="font-size: 30px;font-weight: bold" align="center">学生成绩表</caption>
             <tr>
                 <td>学生姓名</td>
@@ -43,7 +43,7 @@
     <br>
     <br>
 
-    <div align="center" style="border:1px;font-size: 20px;">
+    <div align="center" style="border:1px;font-size: 15px;">
         <a href="/student/pagegrade/1">第一页</a>
         &emsp;
         {% if gradelist.has_previous %}

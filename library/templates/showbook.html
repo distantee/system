@@ -10,6 +10,7 @@
 
 {% endblock %}
 {% block right %}
+{#    通过form表单获取修改后的值#}
         <form action="/library/showbook/{{ bi.bookid }}" method="post">
             {% csrf_token %}
             <br/>
@@ -17,7 +18,7 @@
             <br/>
             <br/>
             <br/>
-
+{#            通过图书id获取数据，并展示出来#}
             <table width="600px" align="center" style="height: 400px">
                 <tr>
                     <td style="width:20%;" align="center">书号:</td>
@@ -44,9 +45,10 @@
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><input type="submit" value="修改">&emsp;</td>&emsp;
-                    <td colspan="2" align="left">&emsp;<input type="reset" value="重置"></td>
+                    <td colspan="2" align="left">&emsp;<input type="reset" value="重置修改"></td>
                 </tr>
             </table>
-            <p><a href="{% url 'bookdata' %}">返回展示页面</a></p>
+{#            添加a标签返回展示页面#}
+{#            <p><a href="{% url 'bookdata' %}">返回展示页面</a></p>#}
         </form>
 {% endblock %}

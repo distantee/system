@@ -77,6 +77,20 @@ def bookdata_view(request,num='1'):
             # 通过图书name获取与之对应的图书信息
             books = TBook.objects.filter(bookname = test)
             return render(request,'bookdata.html',{'books':books})
+        elif key == 'press':
+            # 通过图书press获取与之对应的图书信息
+            books = TBook.objects.filter(press = test)
+            return render(request,'bookdata.html',{'books':books})
+        elif key == 'gt_price':
+            books = TBook.objects.filter(price__gt=test)
+            return render(request, 'bookdata.html', {'books': books})
+        elif key == 'eq_price':
+            books = TBook.objects.filter(price=test)
+            return render(request, 'bookdata.html', {'books': books})
+        elif key == 'lt_price':
+            books = TBook.objects.filter(price__lt=test)
+            return render(request, 'bookdata.html', {'books': books})
+
 
 # 进入图书详情页面
 def showbook_view(request,id):

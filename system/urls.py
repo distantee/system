@@ -1,3 +1,4 @@
+#coding=utf-8
 """system URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -22,9 +23,13 @@ from system.settings import MEDIA_ROOT
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    #主页路由
     url(r'^$',views.login_view,name='login'),
+    #学生应用
     url(r'^student/',include('student.urls')),
     url(r'ckeditor/', include('ckeditor_uploader.urls')),
+    #图书应用
     url(r'^library/',include('library.urls')),
+    #配置的media
     url(r'^media/(?P<path>.*)/$', serve, {"document_root": MEDIA_ROOT})
 ]

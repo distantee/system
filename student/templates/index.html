@@ -36,15 +36,72 @@
 
 		</style>
 
-		<script type="text/javascript">
-			function changeBigImgsrc(path){
-				//获取到存储大图片的元素对象
-				var bigImg=document.getElementById("bigImg");
+{#		<script type="text/javascript">#}
+{#			function changeBigImgsrc(path){#}
+{#				//获取到存储大图片的元素对象#}
+{#				var bigImg=document.getElementById("bigImg");#}
+{##}
+{#				//通过改变元素的属性src来实现图片切换#}
+{#				bigImg.src=path;#}
+{#			}#}
+{#		</script>#}
 
-				//通过改变元素的属性src来实现图片切换
-				bigImg.src=path;
-			}
-		</script>
+
+        <script type="text/javascript">
+            //定义一个变量，用来记录图片数组
+            var curIndex = 0;
+            //时间间隔（单位毫秒），每秒中显示一张
+            var timeInterval = 1500;
+            //定义一个变量标识定时器
+            var timer = null;
+            //定义一个数组
+            var arr = new Array();
+            arr[0] = "{% static '0011_wj.jpg' %}";
+            arr[1] = "{% static '0022_wj.jpg' %}";
+            arr[2] = "{% static '0033_wj.jpg' %}";
+            arr[3] = "{% static '0044_wj.jpg' %}";
+            arr[4] = "{% static '0055_wj.jpg' %}";
+            arr[5] = "{% static '0066_wj.jpg' %}";
+            arr[6] = "{% static '77_wj.jpg' %}";
+            arr[7] = "{% static '88_wj.jpg' %}";
+            arr[8] = "{% static '99_wj.jpg' %}";
+            arr[9] = "{% static '10_wj.jpg' %}";
+            arr[10] = "{% static '011_wj.jpg' %}";
+            arr[11] = "{% static '012_wj.jpg' %}";
+            //启动定时器，1500毫秒调用一次changeImg函数（切换一张图片）
+            timer = setInterval(changeImg, timeInterval);
+
+            //切换图片的函数
+            function changeImg() {
+                //查找id
+                var bigImg = document.getElementById("bigImg");
+                //如果图片为最后一张，令数组为0
+                if (curIndex == arr.length - 1) {
+                    curIndex = 0;
+                }
+                //若图片不是最后一张，数组加1
+                else {
+                    curIndex += 1;
+                }
+                //实现图片切换
+                bigImg.src = arr[curIndex];
+            }
+
+
+            function changeBigImgsrc(path) {
+                //当鼠标悬浮在图片上时，清除定时器，使图片不再自动切换
+                clearInterval(timer);
+                //获取到存储大图片的元素对象
+                var bigImg = document.getElementById("bigImg");
+                //通过改变元素的属性src来实现图片切换
+                bigImg.src = path;
+            }
+
+            function changeimg() {
+                //当鼠标移出图片时，开启定时器，让图片自动切换
+                timer = setInterval(changeImg, timeInterval);
+            }
+        </script>
 	</head>
 	<body>
 		<table align="center">
@@ -62,29 +119,30 @@
 			</tr>
 			<tr>
 				<td colspan="6">
-					<img id="smallimg" src="{% static '0011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0011_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '0011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0011_wj.jpg' %}' );" onmouseout="changeimg('{% static '0011_wj.jpg' %}');"/>
 
-					<img id="smallimg" src="{% static '0022_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0022_wj.jpg' %}');"/>
+                    <img id="smallimg" src="{% static '0022_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0022_wj.jpg' %}');" onmouseout="changeimg('{% static '0022_wj.jpg' %}');"/>
 
-					<img id="smallimg" src="{% static '0033_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0033_wj.jpg' %}');"/>
+                    <img id="smallimg" src="{% static '0033_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0033_wj.jpg' %}');" onmouseout="changeimg('{% static '0033_wj.jpg' %}');"/>
 
-					<img id="smallimg" src="{% static '0044_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0044_wj.jpg' %}');" />
+                    <img id="smallimg" src="{% static '0044_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0044_wj.jpg' %}');" onmouseout="changeimg('{% static '0044_wj.jpg' %}');"/>
 
-					<img id="smallimg" src="{% static '0055_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0055_wj.jpg' %}');" />
+                    <img id="smallimg" src="{% static '0055_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0055_wj.jpg' %}');" onmouseout="changeimg('{% static '0055_wj.jpg' %}');"/>
 
-					<img id="smallimg" src="{% static '0066_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0066_wj.jpg' %}');" />
+                    <img id="smallimg" src="{% static '0066_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '0066_wj.jpg' %}');" onmouseout="changeimg('{% static '0066_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '77_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '77_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '77_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '77_wj.jpg' %}' );" onmouseout="changeimg('{% static '77_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '88_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '88_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '88_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '88_wj.jpg' %}' );" onmouseout="changeimg('{% static '88_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '99_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '99_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '99_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '99_wj.jpg' %}' );" onmouseout="changeimg('{% static '99_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '10_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '10_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '10_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '10_wj.jpg' %}' );" onmouseout="changeimg('{% static '10_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '011_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '011_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '011_wj.jpg' %}' );" onmouseout="changeimg('{% static '011_wj.jpg' %}');"/>
 
-                    <img id="smallimg" src="{% static '012_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '012_wj.jpg' %}' );"/>
+                    <img id="smallimg" src="{% static '012_wj.jpg' %}" onmouseover="changeBigImgsrc('{% static '012_wj.jpg' %}' );" onmouseout="changeimg('{% static '012_wj.jpg' %}');"/>
+
 
                 </td>
 			</tr>

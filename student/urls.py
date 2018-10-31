@@ -39,8 +39,11 @@ urlpatterns = [
     url(r'^modifCourse/(\d+)',views.modifCourse_view,name='modifCourse'),
     #删除课程信息
     url(r'^delCourse/(\d+)',views.delCourse_view,name='delCourse'),
+    #学生信息展示
     url(r'^show/(\d+)',views.show_view,name='show'),
+    #学生信息注册
     url(r'^register/',views.register_view,name='register'),
+    #学生信息操作，包括删除与修改
     url(r'^operate/',views.operate_view,name='operate'),
     url(r'^del1/(\d+)',views.del1_view,name='del1'),
     url(r'^update/(\d+)',views.update_view,name='update'),
