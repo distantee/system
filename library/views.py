@@ -24,10 +24,14 @@ def addbook_view(request):
         press = request.POST.get('press','')
         time = request.POST.get('time','')
         introduce = request.POST.get('introduce','')
-        # 将获取到的数据添加到数据库中
-        TBook.objects.create(bookname=bookname,author=author,bookid=bookid,price=price,press=press,time=time,introduce=introduce)
-        # 完成图书添加后，重定向进入所有图书信息页面中，进行展示
-        return redirect('/library/bookdata/')
+        if bookid and price:
+            # 将获取到的数据添加到数据库中
+            TBook.objects.create(bookname=bookname, author=author, bookid=bookid, price=price, press=press, time=time,
+                                 introduce=introduce)
+            # 完成图书添加后，重定向进入所有图书信息页面中，进行展示
+            return redirect('/library/bookdata/')
+        else:
+            return redirect('/library/addbook/')
 
 
 # 封装分页功能
