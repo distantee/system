@@ -40,7 +40,7 @@ class AuthPermission(models.Model):
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
 
-
+#admin后台
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
@@ -150,7 +150,7 @@ class DjangoMigrations(models.Model):
         managed = False
         db_table = 'django_migrations'
 
-
+#session
 class DjangoSession(models.Model):
     session_key = models.CharField(primary_key=True, max_length=40)
     session_data = models.TextField()
@@ -160,10 +160,12 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
-
+#成绩表
 class Grade(models.Model):
     gradeid = models.AutoField(primary_key=True)
+    #外键学生表
     studentid = models.ForeignKey('TStudent', models.DO_NOTHING, db_column='studentid', blank=True, null=True)
+    #外键课程表
     courseid = models.ForeignKey('TCourse', models.DO_NOTHING, db_column='courseid', blank=True, null=True)
     grade = models.IntegerField(blank=True, null=True)
 
@@ -171,7 +173,7 @@ class Grade(models.Model):
         managed = False
         db_table = 'grade'
 
-
+#图书表
 class TBook(models.Model):
     bookid = models.IntegerField(primary_key=True)
     bookname = models.CharField(max_length=20, blank=True, null=True)
@@ -185,7 +187,7 @@ class TBook(models.Model):
 
         db_table = 't_book'
 
-
+#班级表
 class TClazz(models.Model):
     clazzid = models.AutoField(primary_key=True)
     clazzname = models.CharField(max_length=20, blank=True, null=True)
@@ -194,7 +196,7 @@ class TClazz(models.Model):
         managed = False
         db_table = 't_clazz'
 
-
+#课程表
 class TCourse(models.Model):
     courseid = models.AutoField(primary_key=True)
     coursename = models.CharField(max_length=20, blank=True, null=True)
@@ -203,10 +205,11 @@ class TCourse(models.Model):
         managed = False
         db_table = 't_course'
 
-
+#学生表
 class TStudent(models.Model):
     studentid = models.AutoField(primary_key=True)
     studentname = models.CharField(max_length=20, blank=True, null=True)
+    #外键班级表
     clazz = models.ForeignKey(TClazz, models.DO_NOTHING, db_column='clazz', blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
@@ -215,7 +218,7 @@ class TStudent(models.Model):
         managed = False
         db_table = 't_student'
 
-
+#学生课程中间表实现多对多
 class TStuentCourse(models.Model):
     xkid = models.AutoField(primary_key=True)
     student = models.ForeignKey(TStudent, models.DO_NOTHING, db_column='student', blank=True, null=True)
@@ -225,7 +228,7 @@ class TStuentCourse(models.Model):
         managed = False
         db_table = 't_stuent_course'
 
-
+#教室表
 class TTeacher(models.Model):
     teacherid = models.AutoField(primary_key=True)
     teachername = models.CharField(max_length=20, blank=True, null=True)
@@ -236,10 +239,12 @@ class TTeacher(models.Model):
         managed = False
         db_table = 't_teacher'
 
-
+#教室课程表中间表，其多对多关系
 class TTeacherCourse(models.Model):
     rkid = models.AutoField(primary_key=True)
+    #外键教室表
     teacherid = models.ForeignKey(TTeacher, models.DO_NOTHING, db_column='teacherid', blank=True, null=True)
+    #课程表
     courseid = models.ForeignKey(TCourse, models.DO_NOTHING, db_column='courseid', blank=True, null=True)
 
     class Meta:
