@@ -22,6 +22,14 @@
                 font-family: 宋体;
             }
         </script>
+        <script type="text/javascript">
+            function testConfirm(){
+                var result = confirm('确认删除吗？');
+                //alert(result) ;
+                return result;
+
+            }
+        </script>
     </head>
 
 
@@ -79,7 +87,7 @@
                 <td>{{ stu.sex }}</td>
                 <td>{{ stu.age }}</td>
                 <td>
-                    <a href="/student/del1/{{ stu.studentid }}">删除</a>|<a href="/student/update/{{ stu.studentid }}">修改</a>
+                    <a href="/student/del1/{{ stu.studentid }}"  onclick="return testConfirm()">删除</a>|<a href="/student/update/{{ stu.studentid }}">修改</a>
 
                 </td>
             </tr>

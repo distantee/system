@@ -64,14 +64,26 @@
             <tr>
                 <td>操作</td>
                 <td width="25%">
-                    <input type="submit" value="确认修改"/>
-                    <a href="/student/show/1"><input type="button" value="撤销修改"/></a>
+                    <input type="submit" value="确认修改" onclick="return testUpdate()"/>
+                    <a href="/student/show/1" onclick="return  testUpdate()"><input type="button" value="撤销修改"/></a>
                 </td>
             </tr>
         </table>
 
 
     </form>
+<script type="text/javascript">
+    function testUpdate() {
+        var result = confirm('确认执行该操作吗？');
+        if (result){
+            alert('已执行该操作');
+            return result;
+        }else{
+            alert('已撤销操作');
+            return result;
+        }
 
+    }
+</script>
 
 {% endblock right %}

@@ -222,43 +222,54 @@ def  register_view(request):
         return render(request, 'register.html', {'clazzs': clazzs, 'course': course})
     else:
         stuid = request.POST.get('stuid')
-        sname = request.POST.get('name')
+        sname = request.POST.get('uname')
         clazz = request.POST.get('clazz')
         gender = request.POST.get('gender')
         age = request.POST.get('age')
-        age = int(age)
-        #学生课程一对多关系，用getlist接受课程列表
-        course = request.POST.getlist('course')
-        #判断班级是否需要添加数据库
-        try:
-            cls = TClazz.objects.get(clazzname=clazz)
-        except TClazz.DoesNotExist:
-            cls = TClazz.objects.create(clazzname=clazz)
-        cns = []
-        #判断课程
-        for cn in course:
-            try:
-                cour = TCourse.objects.get(coursename=cn)
-            except TCourse.DoesNotExist:
-                cour = TCourse.objects.create(coursename=cn)
-            cns.append(cour)
-            # print cns
-        #判断学生
-        try:
-            TStudent.objects.filter(studentid=stuid).update(studentname=sname, clazz=cls, sex=gender, age=age)
-            stu = TStudent.objects.get(studentid=stuid)
-        except TStudent.DoesNotExist:
-            stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
-            #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
-        TStuentCourse.objects.filter(student=stu).delete()
-            #stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
-        for c in cns:
-            try:
-                TStuentCourse.objects.get(student=stu, course=c)
-            except TStuentCourse.DoesNotExist:
-                TStuentCourse.objects.create(student=stu, course=c)
+        if clazz and age:
+            age = int(age)
+            #学生课程一对多关系，用getlist接受课程列表
+            course = request.POST.getlist('course')
 
-        return redirect('/student/show/1')
+            #判断班级是否需要添加数据库
+            try:
+                cls = TClazz.objects.get(clazzname=clazz)
+            except TClazz.DoesNotExist:
+                cls = TClazz.objects.create(clazzname=clazz)
+            cns = []
+            #判断课程
+            for cn in course:
+                try:
+                    cour = TCourse.objects.get(coursename=cn)
+                except TCourse.DoesNotExist:
+                    cour = TCourse.objects.create(coursename=cn)
+                cns.append(cour)
+                # print cns
+            #判断学生
+            try:
+                TStudent.objects.filter(studentid=stuid).update(studentname=sname, clazz=cls, sex=gender, age=age)
+                stu = TStudent.objects.get(studentid=stuid)
+            except TStudent.DoesNotExist:
+                stu =  TStudent.objects.create(studentname=sname,clazz=cls,sex=gender,age=age)
+                #在学生课程中间表中添加关联数据，因为课程信息会根据修改操作有变动，所以判断是否添加或者创建之前先删除所有的关系
+            TStuentCourse.objects.filter(student=stu).delete()
+                #stu = TStudent.objects.create(studentname=sname, clazz=cls, sex=gender, age=age)
+            for c in cns:
+                try:
+                    TStuentCourse.objects.get(student=stu, course=c)
+                except TStuentCourse.DoesNotExist:
+                    TStuentCourse.objects.create(student=stu, course=c)
+
+            return redirect('/student/show/1')
+        else:
+            # print sname
+            use = TStudent.objects.filter(studentname=sname)
+            # print use
+            if use:
+                return JsonResponse({'flag':False})
+            else:
+                return JsonResponse({'flag': True})
+
 
 #学生信息修改功能
 def update_view(request,num = '1'):

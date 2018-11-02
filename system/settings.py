@@ -25,7 +25,7 @@ SECRET_KEY = 'pgsx%!##lstcg6jpz1gm!+=%(f*vgp%0ws%^dkpd_&hd2qwi38'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.2.141']
 
 
 # Application definition

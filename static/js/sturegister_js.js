@@ -1,16 +1,31 @@
 //验证用户名
-function checkName() {
-    var val = document.getElementById('name').value;
-    //alert(val);
+function checkName(value) {
+    // var val = document.getElementById('name').value;
+    alert(value);
+    var csrf = $("input[type='hidden']").val();
     var spanObj = document.getElementById("nameSpan");
-    if (val == "") {// 空验证
+    if (value == "") {// 空验证
         spanObj.innerHTML = '姓名' + "不能为空";
         spanObj.style.color = "red";
         return false;
-    } else if (val) {
-        spanObj.innerHTML = "OK";
-        spanObj.style.color = "green";
-        return true;
+    } else if (value) {
+        //<input type="hidden" name="csrfmiddlewaretoken" value="VqyrgTnr6jmTRMCte4fSLGMA5c7W66DOdUTDfsgPJIoo2bEUBuXQCJwdyZZugs03">
+        $.post('/student/register/',{'uname':value,'csrfmiddlewaretoken':csrf},
+            function (result) {
+            //alert(result.flag);
+            if(result.flag){
+                spanObj.innerHTML = "OK";
+                spanObj.style.color = "green";
+                return true;
+            }else{
+                spanObj.innerHTML = "数据库已存在";
+                $('#nameSpan').css('color','red');
+                return false;
+            }
+        });
+        // spanObj.innerHTML = "OK";
+        // spanObj.style.color = "green";
+        // return true;
     } else {
         spanObj.innerHTML = '姓名' + "不符合要求";
         spanObj.style.color = "red";

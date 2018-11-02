@@ -17,14 +17,14 @@
             </tr>
             <tr>
                 <td width="25%" >姓名</td>
-                <td width="75%"><input type="text" id="name" alt="姓名" autofocus="autofocus" onblur="checkName();" name="name" />
+                <td width="75%"><input type="text" autofocus="autofocus" onblur="checkName(value);" name="uname" />
                     <span id="nameSpan" style="font-size: 10px">*必填项* </span>
                 </td>
             </tr>
             <tr>
                 <td>班级</td>
                 <td>
-                    <input type="text"   list="clazz" id="clazz" onblur="checkClazz();" name="clazz" >
+                    <input type="text" list="clazz" id="clazz" onblur="checkClazz();" name="clazz" >
                     <span id="clazzSpan" style="font-size: 10px">*必填项* </span>
                     <datalist id="clazz">
                         <option value="-1">-请 选 择 班 级-</option>
